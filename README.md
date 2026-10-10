@@ -1,6 +1,7 @@
 # Auspify_Internship
 
 # FlixAI: Netflix Machine Learning Projects
+# FlixAI: Netflix Machine Learning Projects
 
 Six machine learning projects on the Netflix catalogue, delivered through one website with a Netflix-style design (red `#E50914`, black `#141414`, white).
 Built for the **Auspify Technologies Machine Learning Internship**. The program asks for any 4 of 6 tasks. All 6 are completed.
@@ -135,10 +136,13 @@ Open the tabs at the top of the page to move between tasks. If a model has not b
 
 Add plot descriptions for text-based similarity, replace the success proxy with viewing or retention data, add real posters through a movie database API, and deploy the site with scheduled retraining.
 
+## Report
+
+A full written report that explains every task, model and result in plain language is in [`docs/FlixAI_ML_Internship_Report.docx`](docs/FlixAI_ML_Internship_Report.docx).
+
 ## Author
 
 **S Fatima Manzoor**, Machine Learning Intern at Auspify Technologies.
-
 `#Auspify` `#AuspifyTechnologies` `#AuspifyInternship` `#AuspifyProjects`
 
 ## Notes
