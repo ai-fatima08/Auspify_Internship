@@ -1,0 +1,2833 @@
+{
+ "meta": {
+  "run_id": "20261008-135226",
+  "created": "2026-10-08T13:54:57",
+  "data_hash": "388d1ebd78d4",
+  "rows": 8787,
+  "series": 2663,
+  "seed": 42,
+  "python": "3.11.9",
+  "sklearn": "1.9.1",
+  "pandas": "3.0.6",
+  "seconds": 151.8,
+  "folds": 5,
+  "n_iter": 8,
+  "target": "TV series with two or more seasons on the platform"
+ },
+ "stages": [
+  {
+   "name": "1. Load and validate data",
+   "seconds": 3.6,
+   "status": "ok",
+   "detail": "10 checks, 0 failed, 2 warnings"
+  },
+  {
+   "name": "2. Engineer features",
+   "seconds": 0.5,
+   "status": "ok",
+   "detail": "10 raw columns became 15 engineered columns and 46 model inputs"
+  },
+  {
+   "name": "3. Train, tune and compare models",
+   "seconds": 101.8,
+   "status": "ok",
+   "detail": "4 models compared. Best by cross-validated AUC: Ensemble (average of three)"
+  },
+  {
+   "name": "4. Evaluate the chosen model on unseen data",
+   "seconds": 10.5,
+   "status": "ok",
+   "detail": "test AUC 0.7441, top 20% of predictions capture 39% of renewed series"
+  },
+  {
+   "name": "5. Explain the model",
+   "seconds": 34.3,
+   "status": "ok",
+   "detail": "permutation importance by feature group, partial dependence and model-implied levers"
+  },
+  {
+   "name": "6. Monitor: slices and drift",
+   "seconds": 0.5,
+   "status": "ok",
+   "detail": "12 slices checked, largest shift PSI 0.172"
+  },
+  {
+   "name": "7. Analyse segments and generate insights",
+   "seconds": 0.2,
+   "status": "ok",
+   "detail": "18 insights written"
+  },
+  {
+   "name": "8. Package report, model and registry",
+   "seconds": 0.3,
+   "status": "ok",
+   "detail": "model version 2 promoted to production"
+  }
+ ],
+ "checks": [
+  {
+   "name": "Required columns present",
+   "status": "pass",
+   "detail": "all 10 columns found"
+  },
+  {
+   "name": "Unique show_id",
+   "status": "pass",
+   "detail": "8,790 rows, 0 duplicate ids"
+  },
+  {
+   "name": "Duplicate titles",
+   "status": "warn",
+   "detail": "3 repeated title, type and year rows removed"
+  },
+  {
+   "name": "Dates parse",
+   "status": "pass",
+   "detail": "0 unreadable date_added values"
+  },
+  {
+   "name": "Release years plausible",
+   "status": "pass",
+   "detail": "range 1925 to 2021"
+  },
+  {
+   "name": "Missing director",
+   "status": "warn",
+   "detail": "29% of all titles have no director"
+  },
+  {
+   "name": "Missing country",
+   "status": "pass",
+   "detail": "3% of all titles have no country"
+  },
+  {
+   "name": "Season counts readable",
+   "status": "pass",
+   "detail": "0 series without a season count"
+  },
+  {
+   "name": "Target balance",
+   "status": "pass",
+   "detail": "32.8% of series have 2+ seasons"
+  },
+  {
+   "name": "Enough series to model",
+   "status": "pass",
+   "detail": "2,663 TV series"
+  }
+ ],
+ "features": {
+  "groups": [
+   [
+    "Genre multi-hot",
+    "Genre profile",
+    "One 0/1 column per genre, so combinations of genres are visible to the model."
+   ],
+   [
+    "Genre combination (target encoded)",
+    "Genre profile",
+    "The exact set of genres, turned into the renewal rate seen for that combination. Computed out-of-fold so a row never sees its own label."
+   ],
+   [
+    "Genre rarity",
+    "Genre profile",
+    "How unusual the genres are among TV series (average of minus log frequency). Separates niche from mainstream."
+   ],
+   [
+    "Number of genres",
+    "Genre profile",
+    "Narrow or broad positioning."
+   ],
+   [
+    "Primary country (target encoded)",
+    "Country",
+    "Top 12 countries plus Other, encoded with out-of-fold renewal rates."
+   ],
+   [
+    "Number of countries",
+    "Country",
+    "Co-productions versus single-country productions."
+   ],
+   [
+    "Audience group and rating",
+    "Audience rating",
+    "Kids, Family, Teens, Adults from the 14 raw ratings, plus the raw rating."
+   ],
+   [
+    "Release year, year and month added",
+    "Timing",
+    "When the series was made and when it reached Netflix."
+   ],
+   [
+    "Years to add and fresh-add flag",
+    "Timing",
+    "Gap between release and arrival on Netflix. A gap of 0 or 1 year points to a fresh or original-style release."
+   ],
+   [
+    "Director credited",
+    "Creator",
+    "Whether any director is listed."
+   ],
+   [
+    "Director experience",
+    "Creator",
+    "How many other titles the credited director has in the catalogue."
+   ]
+  ],
+  "raw": 10,
+  "engineered": 15,
+  "inputs": 46,
+  "guard": "The number of seasons defines the target, so it is never used as a feature."
+ },
+ "models": [
+  {
+   "name": "Baseline (always the average)",
+   "kind": "Baseline",
+   "default_cv_auc": 0.5,
+   "tuned_cv_auc": 0.5,
+   "seconds": 0,
+   "params": {},
+   "test": {
+    "auc": 0.5,
+    "ap": 0.3278,
+    "brier": 0.2205,
+    "log_loss": 0.633,
+    "accuracy": 0.6717,
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": 0.0
+   },
+   "roc": [
+    [
+     0,
+     0
+    ],
+    [
+     1,
+     1
+    ]
+   ]
+  },
+  {
+   "name": "Logistic Regression",
+   "kind": "Linear",
+   "default_cv_auc": 0.75,
+   "tuned_cv_auc": 0.7507,
+   "seconds": 4.8,
+   "params": {
+    "class_weight": "balanced",
+    "C": 3
+   },
+   "test": {
+    "auc": 0.7358,
+    "ap": 0.5734,
+    "brier": 0.2105,
+    "log_loss": 0.6099,
+    "accuracy": 0.6604,
+    "precision": 0.4877,
+    "recall": 0.68,
+    "f1": 0.568
+   },
+   "roc": [
+    [
+     0.0,
+     0.0
+    ],
+    [
+     0.0028,
+     0.0114
+    ],
+    [
+     0.0084,
+     0.0571
+    ],
+    [
+     0.014,
+     0.08
+    ],
+    [
+     0.0196,
+     0.12
+    ],
+    [
+     0.0251,
+     0.1371
+    ],
+    [
+     0.0307,
+     0.1657
+    ],
+    [
+     0.0391,
+     0.1829
+    ],
+    [
+     0.0447,
+     0.2229
+    ],
+    [
+     0.0615,
+     0.2514
+    ],
+    [
+     0.0726,
+     0.2629
+    ],
+    [
+     0.081,
+     0.3029
+    ],
+    [
+     0.095,
+     0.32
+    ],
+    [
+     0.1061,
+     0.3371
+    ],
+    [
+     0.1089,
+     0.3486
+    ],
+    [
+     0.1173,
+     0.3714
+    ],
+    [
+     0.1229,
+     0.3829
+    ],
+    [
+     0.1397,
+     0.4057
+    ],
+    [
+     0.1453,
+     0.4229
+    ],
+    [
+     0.148,
+     0.44
+    ],
+    [
+     0.1536,
+     0.4629
+    ],
+    [
+     0.162,
+     0.4743
+    ],
+    [
+     0.1732,
+     0.4857
+    ],
+    [
+     0.1927,
+     0.5257
+    ],
+    [
+     0.1983,
+     0.5429
+    ],
+    [
+     0.2039,
+     0.56
+    ],
+    [
+     0.2207,
+     0.5771
+    ],
+    [
+     0.243,
+     0.5886
+    ],
+    [
+     0.2458,
+     0.6
+    ],
+    [
+     0.2542,
+     0.6114
+    ],
+    [
+     0.2682,
+     0.6171
+    ],
+    [
+     0.3073,
+     0.6286
+    ],
+    [
+     0.3156,
+     0.64
+    ],
+    [
+     0.324,
+     0.6514
+    ],
+    [
+     0.3436,
+     0.6686
+    ],
+    [
+     0.3547,
+     0.68
+    ],
+    [
+     0.3715,
+     0.6914
+    ],
+    [
+     0.3743,
+     0.7086
+    ],
+    [
+     0.3799,
+     0.72
+    ],
+    [
+     0.4134,
+     0.7314
+    ],
+    [
+     0.4302,
+     0.76
+    ],
+    [
+     0.4441,
+     0.7714
+    ],
+    [
+     0.4553,
+     0.7886
+    ],
+    [
+     0.4777,
+     0.8171
+    ],
+    [
+     0.5223,
+     0.8286
+    ],
+    [
+     0.5391,
+     0.8343
+    ],
+    [
+     0.5419,
+     0.8571
+    ],
+    [
+     0.5754,
+     0.8743
+    ],
+    [
+     0.6229,
+     0.88
+    ],
+    [
+     0.6313,
+     0.8914
+    ],
+    [
+     0.6369,
+     0.9029
+    ],
+    [
+     0.6899,
+     0.9143
+    ],
+    [
+     0.7039,
+     0.9371
+    ],
+    [
+     0.7374,
+     0.9429
+    ],
+    [
+     0.7737,
+     0.9486
+    ],
+    [
+     0.7961,
+     0.9543
+    ],
+    [
+     0.838,
+     0.9714
+    ],
+    [
+     0.8659,
+     0.9771
+    ],
+    [
+     0.9413,
+     0.9886
+    ],
+    [
+     1.0,
+     1.0
+    ]
+   ]
+  },
+  {
+   "name": "Random Forest",
+   "kind": "Tree ensemble",
+   "default_cv_auc": 0.7415,
+   "tuned_cv_auc": 0.7588,
+   "seconds": 70.8,
+   "params": {
+    "min_samples_leaf": 10,
+    "max_features": 0.3,
+    "max_depth": null
+   },
+   "test": {
+    "auc": 0.7415,
+    "ap": 0.5513,
+    "brier": 0.1866,
+    "log_loss": 0.5533,
+    "accuracy": 0.7111,
+    "precision": 0.5913,
+    "recall": 0.3886,
+    "f1": 0.469
+   },
+   "roc": [
+    [
+     0.0,
+     0.0
+    ],
+    [
+     0.0028,
+     0.0171
+    ],
+    [
+     0.014,
+     0.04
+    ],
+    [
+     0.0196,
+     0.0514
+    ],
+    [
+     0.0251,
+     0.0629
+    ],
+    [
+     0.0307,
+     0.0686
+    ],
+    [
+     0.0363,
+     0.0914
+    ],
+    [
+     0.0419,
+     0.1257
+    ],
+    [
+     0.0475,
+     0.1429
+    ],
+    [
+     0.0559,
+     0.16
+    ],
+    [
+     0.0642,
+     0.1657
+    ],
+    [
+     0.067,
+     0.2286
+    ],
+    [
+     0.0698,
+     0.2686
+    ],
+    [
+     0.0782,
+     0.2857
+    ],
+    [
+     0.0866,
+     0.2914
+    ],
+    [
+     0.1089,
+     0.3314
+    ],
+    [
+     0.1173,
+     0.3543
+    ],
+    [
+     0.1313,
+     0.3886
+    ],
+    [
+     0.1453,
+     0.4343
+    ],
+    [
+     0.1564,
+     0.44
+    ],
+    [
+     0.1648,
+     0.4914
+    ],
+    [
+     0.1704,
+     0.5029
+    ],
+    [
+     0.1816,
+     0.5257
+    ],
+    [
+     0.1844,
+     0.5429
+    ],
+    [
+     0.1899,
+     0.5543
+    ],
+    [
+     0.1955,
+     0.56
+    ],
+    [
+     0.2067,
+     0.5771
+    ],
+    [
+     0.2235,
+     0.5886
+    ],
+    [
+     0.2291,
+     0.6057
+    ],
+    [
+     0.2374,
+     0.6171
+    ],
+    [
+     0.2542,
+     0.6229
+    ],
+    [
+     0.2598,
+     0.6343
+    ],
+    [
+     0.2821,
+     0.6457
+    ],
+    [
+     0.2905,
+     0.6686
+    ],
+    [
+     0.3268,
+     0.68
+    ],
+    [
+     0.3408,
+     0.6857
+    ],
+    [
+     0.3547,
+     0.6971
+    ],
+    [
+     0.3631,
+     0.7086
+    ],
+    [
+     0.3687,
+     0.72
+    ],
+    [
+     0.3966,
+     0.7429
+    ],
+    [
+     0.4134,
+     0.7657
+    ],
+    [
+     0.433,
+     0.7771
+    ],
+    [
+     0.4553,
+     0.7886
+    ],
+    [
+     0.4693,
+     0.8057
+    ],
+    [
+     0.486,
+     0.8171
+    ],
+    [
+     0.5307,
+     0.8343
+    ],
+    [
+     0.5447,
+     0.84
+    ],
+    [
+     0.5559,
+     0.8571
+    ],
+    [
+     0.5587,
+     0.8914
+    ],
+    [
+     0.5978,
+     0.9029
+    ],
+    [
+     0.6648,
+     0.9086
+    ],
+    [
+     0.6899,
+     0.92
+    ],
+    [
+     0.7235,
+     0.9314
+    ],
+    [
+     0.7374,
+     0.9543
+    ],
+    [
+     0.7654,
+     0.9657
+    ],
+    [
+     0.824,
+     0.9714
+    ],
+    [
+     0.8492,
+     0.9771
+    ],
+    [
+     0.8743,
+     0.9886
+    ],
+    [
+     0.9581,
+     0.9943
+    ],
+    [
+     1.0,
+     1.0
+    ]
+   ]
+  },
+  {
+   "name": "Gradient Boosting",
+   "kind": "Boosting",
+   "default_cv_auc": 0.7443,
+   "tuned_cv_auc": 0.759,
+   "seconds": 13.9,
+   "params": {
+    "min_samples_leaf": 20,
+    "max_leaf_nodes": 31,
+    "max_depth": 3,
+    "learning_rate": 0.1,
+    "l2_regularization": 1.0
+   },
+   "test": {
+    "auc": 0.7383,
+    "ap": 0.5758,
+    "brier": 0.1867,
+    "log_loss": 0.5532,
+    "accuracy": 0.7129,
+    "precision": 0.5917,
+    "recall": 0.4057,
+    "f1": 0.4814
+   },
+   "roc": [
+    [
+     0.0,
+     0.0
+    ],
+    [
+     0.0056,
+     0.0571
+    ],
+    [
+     0.0112,
+     0.08
+    ],
+    [
+     0.014,
+     0.1257
+    ],
+    [
+     0.0251,
+     0.1543
+    ],
+    [
+     0.0307,
+     0.1657
+    ],
+    [
+     0.0419,
+     0.2
+    ],
+    [
+     0.0503,
+     0.2171
+    ],
+    [
+     0.0531,
+     0.2286
+    ],
+    [
+     0.0726,
+     0.2514
+    ],
+    [
+     0.081,
+     0.2629
+    ],
+    [
+     0.0866,
+     0.3086
+    ],
+    [
+     0.1034,
+     0.3257
+    ],
+    [
+     0.1117,
+     0.3486
+    ],
+    [
+     0.1173,
+     0.3657
+    ],
+    [
+     0.1201,
+     0.3943
+    ],
+    [
+     0.1341,
+     0.4057
+    ],
+    [
+     0.1397,
+     0.4229
+    ],
+    [
+     0.1425,
+     0.4343
+    ],
+    [
+     0.1592,
+     0.4629
+    ],
+    [
+     0.1676,
+     0.4686
+    ],
+    [
+     0.1955,
+     0.4857
+    ],
+    [
+     0.2011,
+     0.4971
+    ],
+    [
+     0.2067,
+     0.5371
+    ],
+    [
+     0.2123,
+     0.56
+    ],
+    [
+     0.2151,
+     0.5829
+    ],
+    [
+     0.2402,
+     0.6057
+    ],
+    [
+     0.2514,
+     0.6171
+    ],
+    [
+     0.2626,
+     0.6229
+    ],
+    [
+     0.3045,
+     0.6514
+    ],
+    [
+     0.3156,
+     0.6629
+    ],
+    [
+     0.3268,
+     0.6743
+    ],
+    [
+     0.3492,
+     0.6914
+    ],
+    [
+     0.3631,
+     0.7029
+    ],
+    [
+     0.3771,
+     0.7143
+    ],
+    [
+     0.3855,
+     0.7314
+    ],
+    [
+     0.4106,
+     0.7486
+    ],
+    [
+     0.4302,
+     0.7543
+    ],
+    [
+     0.4441,
+     0.7714
+    ],
+    [
+     0.4721,
+     0.7829
+    ],
+    [
+     0.4749,
+     0.7943
+    ],
+    [
+     0.4944,
+     0.8057
+    ],
+    [
+     0.5028,
+     0.8114
+    ],
+    [
+     0.5363,
+     0.8343
+    ],
+    [
+     0.5503,
+     0.8514
+    ],
+    [
+     0.5642,
+     0.8571
+    ],
+    [
+     0.5978,
+     0.8743
+    ],
+    [
+     0.6034,
+     0.8914
+    ],
+    [
+     0.6145,
+     0.9029
+    ],
+    [
+     0.6592,
+     0.9086
+    ],
+    [
+     0.6648,
+     0.92
+    ],
+    [
+     0.6704,
+     0.9314
+    ],
+    [
+     0.6983,
+     0.9429
+    ],
+    [
+     0.7793,
+     0.9543
+    ],
+    [
+     0.8352,
+     0.96
+    ],
+    [
+     0.838,
+     0.9714
+    ],
+    [
+     0.8771,
+     0.9829
+    ],
+    [
+     0.9078,
+     0.9886
+    ],
+    [
+     0.933,
+     1.0
+    ],
+    [
+     1.0,
+     1.0
+    ]
+   ]
+  },
+  {
+   "name": "Ensemble (average of three)",
+   "kind": "Ensemble",
+   "default_cv_auc": null,
+   "tuned_cv_auc": 0.7641,
+   "seconds": 12.2,
+   "params": {},
+   "test": {
+    "auc": 0.7441,
+    "ap": 0.5801,
+    "brier": 0.1867,
+    "log_loss": 0.5517,
+    "accuracy": 0.7261,
+    "precision": 0.589,
+    "recall": 0.5486,
+    "f1": 0.568
+   },
+   "roc": [
+    [
+     0.0,
+     0.0
+    ],
+    [
+     0.0028,
+     0.0114
+    ],
+    [
+     0.0056,
+     0.0514
+    ],
+    [
+     0.0112,
+     0.0629
+    ],
+    [
+     0.0223,
+     0.0857
+    ],
+    [
+     0.0307,
+     0.1371
+    ],
+    [
+     0.0363,
+     0.16
+    ],
+    [
+     0.0419,
+     0.1943
+    ],
+    [
+     0.0531,
+     0.2
+    ],
+    [
+     0.0587,
+     0.2629
+    ],
+    [
+     0.081,
+     0.2971
+    ],
+    [
+     0.0922,
+     0.3086
+    ],
+    [
+     0.095,
+     0.3257
+    ],
+    [
+     0.1006,
+     0.3486
+    ],
+    [
+     0.1061,
+     0.36
+    ],
+    [
+     0.1145,
+     0.4057
+    ],
+    [
+     0.1285,
+     0.4171
+    ],
+    [
+     0.1425,
+     0.44
+    ],
+    [
+     0.148,
+     0.4743
+    ],
+    [
+     0.1536,
+     0.5029
+    ],
+    [
+     0.1592,
+     0.5257
+    ],
+    [
+     0.162,
+     0.5371
+    ],
+    [
+     0.1816,
+     0.5486
+    ],
+    [
+     0.2095,
+     0.5543
+    ],
+    [
+     0.2123,
+     0.5714
+    ],
+    [
+     0.2235,
+     0.5829
+    ],
+    [
+     0.2486,
+     0.5886
+    ],
+    [
+     0.2598,
+     0.6114
+    ],
+    [
+     0.2765,
+     0.6343
+    ],
+    [
+     0.3017,
+     0.6514
+    ],
+    [
+     0.3073,
+     0.6629
+    ],
+    [
+     0.3436,
+     0.6743
+    ],
+    [
+     0.352,
+     0.6857
+    ],
+    [
+     0.3799,
+     0.7029
+    ],
+    [
+     0.3883,
+     0.7143
+    ],
+    [
+     0.4022,
+     0.7371
+    ],
+    [
+     0.4106,
+     0.76
+    ],
+    [
+     0.4358,
+     0.7657
+    ],
+    [
+     0.4637,
+     0.7943
+    ],
+    [
+     0.4665,
+     0.8057
+    ],
+    [
+     0.4804,
+     0.8114
+    ],
+    [
+     0.5056,
+     0.8286
+    ],
+    [
+     0.5112,
+     0.84
+    ],
+    [
+     0.5279,
+     0.8457
+    ],
+    [
+     0.5559,
+     0.8629
+    ],
+    [
+     0.5754,
+     0.8686
+    ],
+    [
+     0.5978,
+     0.88
+    ],
+    [
+     0.6229,
+     0.8971
+    ],
+    [
+     0.6508,
+     0.9029
+    ],
+    [
+     0.6592,
+     0.9143
+    ],
+    [
+     0.6704,
+     0.9257
+    ],
+    [
+     0.7151,
+     0.9314
+    ],
+    [
+     0.7207,
+     0.9486
+    ],
+    [
+     0.7486,
+     0.96
+    ],
+    [
+     0.8073,
+     0.96
+    ],
+    [
+     0.8101,
+     0.9714
+    ],
+    [
+     0.8603,
+     0.9829
+    ],
+    [
+     0.8687,
+     0.9886
+    ],
+    [
+     0.9358,
+     0.9943
+    ],
+    [
+     1.0,
+     1.0
+    ]
+   ]
+  }
+ ],
+ "final": {
+  "model": "Ensemble (average of three)",
+  "threshold": 0.34,
+  "test": {
+   "auc": 0.7441,
+   "ap": 0.5801,
+   "brier": 0.1867,
+   "log_loss": 0.5517,
+   "accuracy": 0.6454,
+   "precision": 0.475,
+   "recall": 0.76,
+   "f1": 0.5846
+  },
+  "train_rows": 2130,
+  "test_rows": 533,
+  "base_rate": 0.3283,
+  "confusion": {
+   "tn": 211,
+   "fp": 147,
+   "fn": 42,
+   "tp": 133
+  },
+  "gain": [
+   [
+    0.0019,
+    0.0057
+   ],
+   [
+    0.0206,
+    0.0514
+   ],
+   [
+    0.0413,
+    0.0857
+   ],
+   [
+    0.0619,
+    0.1314
+   ],
+   [
+    0.0826,
+    0.1714
+   ],
+   [
+    0.1032,
+    0.2057
+   ],
+   [
+    0.1238,
+    0.2571
+   ],
+   [
+    0.1445,
+    0.2857
+   ],
+   [
+    0.1632,
+    0.3086
+   ],
+   [
+    0.1839,
+    0.3486
+   ],
+   [
+    0.2045,
+    0.3943
+   ],
+   [
+    0.2251,
+    0.4171
+   ],
+   [
+    0.2458,
+    0.4571
+   ],
+   [
+    0.2664,
+    0.4971
+   ],
+   [
+    0.2871,
+    0.5371
+   ],
+   [
+    0.3058,
+    0.5486
+   ],
+   [
+    0.3265,
+    0.56
+   ],
+   [
+    0.3471,
+    0.5829
+   ],
+   [
+    0.3677,
+    0.6057
+   ],
+   [
+    0.3884,
+    0.6286
+   ],
+   [
+    0.409,
+    0.6514
+   ],
+   [
+    0.4296,
+    0.6686
+   ],
+   [
+    0.4484,
+    0.6743
+   ],
+   [
+    0.469,
+    0.6914
+   ],
+   [
+    0.4897,
+    0.7086
+   ],
+   [
+    0.5103,
+    0.7371
+   ],
+   [
+    0.531,
+    0.76
+   ],
+   [
+    0.5516,
+    0.7829
+   ],
+   [
+    0.5722,
+    0.7943
+   ],
+   [
+    0.591,
+    0.8171
+   ],
+   [
+    0.6116,
+    0.8286
+   ],
+   [
+    0.6323,
+    0.8457
+   ],
+   [
+    0.6529,
+    0.8514
+   ],
+   [
+    0.6735,
+    0.8743
+   ],
+   [
+    0.6942,
+    0.88
+   ],
+   [
+    0.7148,
+    0.8971
+   ],
+   [
+    0.7336,
+    0.9029
+   ],
+   [
+    0.7542,
+    0.9257
+   ],
+   [
+    0.7749,
+    0.9257
+   ],
+   [
+    0.7955,
+    0.9486
+   ],
+   [
+    0.8161,
+    0.9543
+   ],
+   [
+    0.8368,
+    0.96
+   ],
+   [
+    0.8574,
+    0.96
+   ],
+   [
+    0.8762,
+    0.9714
+   ],
+   [
+    0.8968,
+    0.9771
+   ],
+   [
+    0.9174,
+    0.9886
+   ],
+   [
+    0.9381,
+    0.9943
+   ],
+   [
+    0.9587,
+    0.9943
+   ],
+   [
+    0.9794,
+    1.0
+   ],
+   [
+    1.0,
+    1.0
+   ]
+  ],
+  "lift_top20": 1.94,
+  "capture_top20": 0.389,
+  "deciles": [
+   0.6604,
+   0.6226,
+   0.5094,
+   0.2963,
+   0.283,
+   0.3585,
+   0.1667,
+   0.2264,
+   0.0943,
+   0.0741
+  ],
+  "calibration": [
+   [
+    0.085,
+    0.075
+   ],
+   [
+    0.16,
+    0.134
+   ],
+   [
+    0.229,
+    0.212
+   ],
+   [
+    0.315,
+    0.313
+   ],
+   [
+    0.403,
+    0.288
+   ],
+   [
+    0.492,
+    0.373
+   ],
+   [
+    0.583,
+    0.545
+   ],
+   [
+    0.698,
+    0.687
+   ]
+  ],
+  "thresholds": [
+   {
+    "t": 0.2,
+    "precision": 0.404,
+    "recall": 0.909,
+    "share_flagged": 0.739
+   },
+   {
+    "t": 0.25,
+    "precision": 0.429,
+    "recall": 0.863,
+    "share_flagged": 0.66
+   },
+   {
+    "t": 0.3,
+    "precision": 0.458,
+    "recall": 0.811,
+    "share_flagged": 0.582
+   },
+   {
+    "t": 0.35,
+    "precision": 0.471,
+    "recall": 0.743,
+    "share_flagged": 0.518
+   },
+   {
+    "t": 0.4,
+    "precision": 0.502,
+    "recall": 0.674,
+    "share_flagged": 0.441
+   },
+   {
+    "t": 0.45,
+    "precision": 0.542,
+    "recall": 0.589,
+    "share_flagged": 0.356
+   },
+   {
+    "t": 0.5,
+    "precision": 0.589,
+    "recall": 0.549,
+    "share_flagged": 0.306
+   },
+   {
+    "t": 0.55,
+    "precision": 0.608,
+    "recall": 0.451,
+    "share_flagged": 0.244
+   },
+   {
+    "t": 0.6,
+    "precision": 0.634,
+    "recall": 0.297,
+    "share_flagged": 0.154
+   },
+   {
+    "t": 0.65,
+    "precision": 0.66,
+    "recall": 0.2,
+    "share_flagged": 0.099
+   },
+   {
+    "t": 0.7,
+    "precision": 0.714,
+    "recall": 0.114,
+    "share_flagged": 0.053
+   }
+  ]
+ },
+ "importance": [
+  {
+   "group": "Genre profile",
+   "drop": 0.1012,
+   "sd": 0.0194
+  },
+  {
+   "group": "Country",
+   "drop": 0.0748,
+   "sd": 0.0082
+  },
+  {
+   "group": "Timing",
+   "drop": 0.0249,
+   "sd": 0.006
+  },
+  {
+   "group": "Creator",
+   "drop": 0.0053,
+   "sd": 0.004
+  },
+  {
+   "group": "Audience rating",
+   "drop": 0.0018,
+   "sd": 0.0034
+  }
+ ],
+ "pdp": {
+  "release_year": [
+   [
+    2010,
+    0.3533
+   ],
+   [
+    2011,
+    0.3548
+   ],
+   [
+    2012,
+    0.3685
+   ],
+   [
+    2013,
+    0.3697
+   ],
+   [
+    2014,
+    0.3709
+   ],
+   [
+    2015,
+    0.3767
+   ],
+   [
+    2016,
+    0.3789
+   ],
+   [
+    2017,
+    0.3806
+   ],
+   [
+    2018,
+    0.3814
+   ],
+   [
+    2019,
+    0.3825
+   ],
+   [
+    2020,
+    0.3765
+   ],
+   [
+    2021,
+    0.3751
+   ]
+  ],
+  "years_to_add": [
+   [
+    0,
+    0.3587
+   ],
+   [
+    1,
+    0.3711
+   ],
+   [
+    2,
+    0.3802
+   ],
+   [
+    3,
+    0.3835
+   ],
+   [
+    4,
+    0.4144
+   ],
+   [
+    5,
+    0.4173
+   ],
+   [
+    6,
+    0.4206
+   ]
+  ],
+  "n_genres": [
+   [
+    1,
+    0.3335
+   ],
+   [
+    2,
+    0.3658
+   ],
+   [
+    3,
+    0.3937
+   ]
+  ]
+ },
+ "levers": {
+  "genres": [
+   {
+    "name": "Teen TV Shows",
+    "effect": 11.4
+   },
+   {
+    "name": "TV Action & Adventure",
+    "effect": 9.36
+   },
+   {
+    "name": "Korean TV Shows",
+    "effect": 6.56
+   },
+   {
+    "name": "TV Sci-Fi & Fantasy",
+    "effect": 6.3
+   },
+   {
+    "name": "British TV Shows",
+    "effect": 6.02
+   },
+   {
+    "name": "TV Comedies",
+    "effect": 5.74
+   },
+   {
+    "name": "Kids' TV",
+    "effect": 5.7
+   },
+   {
+    "name": "Anime Series",
+    "effect": 5.13
+   },
+   {
+    "name": "Stand-Up Comedy & Talk Shows",
+    "effect": 4.91
+   },
+   {
+    "name": "TV Thrillers",
+    "effect": 4.1
+   },
+   {
+    "name": "Spanish-Language TV Shows",
+    "effect": 3.44
+   },
+   {
+    "name": "TV Mysteries",
+    "effect": 3.43
+   },
+   {
+    "name": "TV Dramas",
+    "effect": 3.32
+   },
+   {
+    "name": "Reality TV",
+    "effect": 2.39
+   },
+   {
+    "name": "Crime TV Shows",
+    "effect": 1.74
+   },
+   {
+    "name": "TV Horror",
+    "effect": 1.1
+   },
+   {
+    "name": "Science & Nature TV",
+    "effect": -1.41
+   },
+   {
+    "name": "Romantic TV Shows",
+    "effect": -2.4
+   },
+   {
+    "name": "International TV Shows",
+    "effect": -6.86
+   },
+   {
+    "name": "Docuseries",
+    "effect": -9.09
+   }
+  ],
+  "countries": [
+   {
+    "name": "Canada",
+    "effect": 23.02
+   },
+   {
+    "name": "United States",
+    "effect": 9.26
+   },
+   {
+    "name": "Spain",
+    "effect": 8.97
+   },
+   {
+    "name": "Australia",
+    "effect": 6.44
+   },
+   {
+    "name": "United Kingdom",
+    "effect": 5.39
+   },
+   {
+    "name": "Mexico",
+    "effect": 2.61
+   },
+   {
+    "name": "Japan",
+    "effect": 1.54
+   },
+   {
+    "name": "France",
+    "effect": 0.12
+   },
+   {
+    "name": "India",
+    "effect": -14.66
+   },
+   {
+    "name": "Pakistan",
+    "effect": -15.45
+   },
+   {
+    "name": "South Korea",
+    "effect": -15.56
+   },
+   {
+    "name": "Taiwan",
+    "effect": -20.05
+   }
+  ],
+  "ratings": [
+   {
+    "name": "TV-Y7",
+    "effect": 4.17
+   },
+   {
+    "name": "TV-Y",
+    "effect": 1.97
+   },
+   {
+    "name": "TV-MA",
+    "effect": 1.06
+   },
+   {
+    "name": "TV-14",
+    "effect": -1.94
+   },
+   {
+    "name": "TV-PG",
+    "effect": -3.63
+   },
+   {
+    "name": "TV-G",
+    "effect": -3.86
+   }
+  ]
+ },
+ "segments": {
+  "overall": 0.3278,
+  "n": 2663,
+  "Genre": [
+   {
+    "name": "Anime Series",
+    "n": 174,
+    "rate": 0.345,
+    "lo": 0.278,
+    "hi": 0.418
+   },
+   {
+    "name": "British TV Shows",
+    "n": 252,
+    "rate": 0.369,
+    "lo": 0.312,
+    "hi": 0.43
+   },
+   {
+    "name": "Classic & Cult TV",
+    "n": 26,
+    "rate": 0.846,
+    "lo": 0.665,
+    "hi": 0.939
+   },
+   {
+    "name": "Crime TV Shows",
+    "n": 469,
+    "rate": 0.296,
+    "lo": 0.257,
+    "hi": 0.339
+   },
+   {
+    "name": "Docuseries",
+    "n": 394,
+    "rate": 0.165,
+    "lo": 0.132,
+    "hi": 0.205
+   },
+   {
+    "name": "International TV Shows",
+    "n": 1348,
+    "rate": 0.221,
+    "lo": 0.2,
+    "hi": 0.244
+   },
+   {
+    "name": "Kids' TV",
+    "n": 448,
+    "rate": 0.507,
+    "lo": 0.461,
+    "hi": 0.553
+   },
+   {
+    "name": "Korean TV Shows",
+    "n": 151,
+    "rate": 0.199,
+    "lo": 0.143,
+    "hi": 0.269
+   },
+   {
+    "name": "Reality TV",
+    "n": 255,
+    "rate": 0.314,
+    "lo": 0.26,
+    "hi": 0.373
+   },
+   {
+    "name": "Romantic TV Shows",
+    "n": 370,
+    "rate": 0.162,
+    "lo": 0.128,
+    "hi": 0.203
+   },
+   {
+    "name": "Science & Nature TV",
+    "n": 92,
+    "rate": 0.141,
+    "lo": 0.084,
+    "hi": 0.227
+   },
+   {
+    "name": "Spanish-Language TV Shows",
+    "n": 173,
+    "rate": 0.295,
+    "lo": 0.232,
+    "hi": 0.367
+   },
+   {
+    "name": "Stand-Up Comedy & Talk Shows",
+    "n": 56,
+    "rate": 0.304,
+    "lo": 0.199,
+    "hi": 0.433
+   },
+   {
+    "name": "TV Action & Adventure",
+    "n": 167,
+    "rate": 0.497,
+    "lo": 0.422,
+    "hi": 0.572
+   },
+   {
+    "name": "TV Comedies",
+    "n": 573,
+    "rate": 0.431,
+    "lo": 0.391,
+    "hi": 0.472
+   },
+   {
+    "name": "TV Dramas",
+    "n": 761,
+    "rate": 0.318,
+    "lo": 0.286,
+    "hi": 0.352
+   },
+   {
+    "name": "TV Horror",
+    "n": 75,
+    "rate": 0.387,
+    "lo": 0.285,
+    "hi": 0.5
+   },
+   {
+    "name": "TV Mysteries",
+    "n": 98,
+    "rate": 0.398,
+    "lo": 0.307,
+    "hi": 0.497
+   },
+   {
+    "name": "TV Sci-Fi & Fantasy",
+    "n": 83,
+    "rate": 0.542,
+    "lo": 0.435,
+    "hi": 0.645
+   },
+   {
+    "name": "TV Thrillers",
+    "n": 57,
+    "rate": 0.421,
+    "lo": 0.302,
+    "hi": 0.55
+   },
+   {
+    "name": "Teen TV Shows",
+    "n": 69,
+    "rate": 0.565,
+    "lo": 0.448,
+    "hi": 0.676
+   }
+  ],
+  "Country": [
+   {
+    "name": "Australia",
+    "n": 53,
+    "rate": 0.415,
+    "lo": 0.293,
+    "hi": 0.549
+   },
+   {
+    "name": "Canada",
+    "n": 84,
+    "rate": 0.667,
+    "lo": 0.561,
+    "hi": 0.758
+   },
+   {
+    "name": "China",
+    "n": 41,
+    "rate": 0.122,
+    "lo": 0.053,
+    "hi": 0.255
+   },
+   {
+    "name": "France",
+    "n": 65,
+    "rate": 0.338,
+    "lo": 0.235,
+    "hi": 0.46
+   },
+   {
+    "name": "India",
+    "n": 81,
+    "rate": 0.123,
+    "lo": 0.068,
+    "hi": 0.213
+   },
+   {
+    "name": "Japan",
+    "n": 172,
+    "rate": 0.343,
+    "lo": 0.276,
+    "hi": 0.417
+   },
+   {
+    "name": "Mexico",
+    "n": 48,
+    "rate": 0.354,
+    "lo": 0.234,
+    "hi": 0.496
+   },
+   {
+    "name": "Pakistan",
+    "n": 349,
+    "rate": 0.155,
+    "lo": 0.121,
+    "hi": 0.196
+   },
+   {
+    "name": "South Korea",
+    "n": 165,
+    "rate": 0.145,
+    "lo": 0.1,
+    "hi": 0.207
+   },
+   {
+    "name": "Spain",
+    "n": 53,
+    "rate": 0.396,
+    "lo": 0.276,
+    "hi": 0.531
+   },
+   {
+    "name": "Taiwan",
+    "n": 71,
+    "rate": 0.014,
+    "lo": 0.002,
+    "hi": 0.076
+   },
+   {
+    "name": "Turkey",
+    "n": 30,
+    "rate": 0.3,
+    "lo": 0.167,
+    "hi": 0.479
+   },
+   {
+    "name": "United Kingdom",
+    "n": 251,
+    "rate": 0.375,
+    "lo": 0.317,
+    "hi": 0.436
+   },
+   {
+    "name": "United States",
+    "n": 845,
+    "rate": 0.464,
+    "lo": 0.431,
+    "hi": 0.498
+   },
+   {
+    "name": "Unknown",
+    "n": 30,
+    "rate": 0.033,
+    "lo": 0.006,
+    "hi": 0.167
+   }
+  ],
+  "Audience": [
+   {
+    "name": "Adults",
+    "n": 1145,
+    "rate": 0.324,
+    "lo": 0.298,
+    "hi": 0.352
+   },
+   {
+    "name": "Family",
+    "n": 321,
+    "rate": 0.255,
+    "lo": 0.211,
+    "hi": 0.306
+   },
+   {
+    "name": "Kids",
+    "n": 464,
+    "rate": 0.481,
+    "lo": 0.435,
+    "hi": 0.526
+   },
+   {
+    "name": "Teens",
+    "n": 729,
+    "rate": 0.269,
+    "lo": 0.238,
+    "hi": 0.302
+   }
+  ],
+  "Release year": [
+   {
+    "name": "2012",
+    "n": 63,
+    "rate": 0.333,
+    "lo": 0.229,
+    "hi": 0.456
+   },
+   {
+    "name": "2013",
+    "n": 61,
+    "rate": 0.279,
+    "lo": 0.182,
+    "hi": 0.402
+   },
+   {
+    "name": "2014",
+    "n": 88,
+    "rate": 0.273,
+    "lo": 0.191,
+    "hi": 0.374
+   },
+   {
+    "name": "2015",
+    "n": 159,
+    "rate": 0.277,
+    "lo": 0.213,
+    "hi": 0.351
+   },
+   {
+    "name": "2016",
+    "n": 243,
+    "rate": 0.313,
+    "lo": 0.258,
+    "hi": 0.374
+   },
+   {
+    "name": "2017",
+    "n": 265,
+    "rate": 0.336,
+    "lo": 0.282,
+    "hi": 0.395
+   },
+   {
+    "name": "2018",
+    "n": 378,
+    "rate": 0.325,
+    "lo": 0.28,
+    "hi": 0.374
+   },
+   {
+    "name": "2019",
+    "n": 397,
+    "rate": 0.365,
+    "lo": 0.319,
+    "hi": 0.414
+   },
+   {
+    "name": "2020",
+    "n": 436,
+    "rate": 0.333,
+    "lo": 0.29,
+    "hi": 0.378
+   },
+   {
+    "name": "2021",
+    "n": 315,
+    "rate": 0.356,
+    "lo": 0.305,
+    "hi": 0.41
+   }
+  ]
+ },
+ "slices": [
+  {
+   "slice": "Audience: Adults",
+   "n": 217,
+   "rate": 0.3,
+   "auc": 0.75,
+   "accuracy": 0.654
+  },
+  {
+   "slice": "Audience: Family",
+   "n": 60,
+   "rate": 0.233,
+   "auc": 0.801,
+   "accuracy": 0.683
+  },
+  {
+   "slice": "Audience: Kids",
+   "n": 121,
+   "rate": 0.496,
+   "auc": 0.594,
+   "accuracy": 0.512
+  },
+  {
+   "slice": "Audience: Teens",
+   "n": 135,
+   "rate": 0.267,
+   "auc": 0.786,
+   "accuracy": 0.733
+  },
+  {
+   "slice": "Country: Japan",
+   "n": 31,
+   "rate": 0.387,
+   "auc": 0.439,
+   "accuracy": 0.387
+  },
+  {
+   "slice": "Country: Other",
+   "n": 71,
+   "rate": 0.254,
+   "auc": 0.677,
+   "accuracy": 0.761
+  },
+  {
+   "slice": "Country: Pakistan",
+   "n": 74,
+   "rate": 0.189,
+   "auc": 0.673,
+   "accuracy": 0.77
+  },
+  {
+   "slice": "Country: South Korea",
+   "n": 34,
+   "rate": 0.176,
+   "auc": 0.798,
+   "accuracy": 0.912
+  },
+  {
+   "slice": "Country: United Kingdom",
+   "n": 58,
+   "rate": 0.328,
+   "auc": 0.823,
+   "accuracy": 0.638
+  },
+  {
+   "slice": "Country: United States",
+   "n": 178,
+   "rate": 0.444,
+   "auc": 0.68,
+   "accuracy": 0.534
+  },
+  {
+   "slice": "Director credited: no",
+   "n": 491,
+   "rate": 0.34,
+   "auc": 0.749,
+   "accuracy": 0.648
+  },
+  {
+   "slice": "Director credited: yes",
+   "n": 42,
+   "rate": 0.19,
+   "auc": 0.581,
+   "accuracy": 0.619
+  }
+ ],
+ "drift": {
+  "features": [
+   {
+    "feature": "years to add",
+    "psi": 0.172
+   },
+   {
+    "feature": "audience",
+    "psi": 0.076
+   },
+   {
+    "feature": "country",
+    "psi": 0.072
+   },
+   {
+    "feature": "genre mix (average shift)",
+    "psi": 0.061
+   },
+   {
+    "feature": "has director",
+    "psi": 0.022
+   },
+   {
+    "feature": "n genres",
+    "psi": 0.015
+   },
+   {
+    "feature": "n countries",
+    "psi": 0.0
+   }
+  ],
+  "reference": "added in 2019 or earlier",
+  "current": "added in 2020 or later",
+  "n_ref": 1563,
+  "n_cur": 1100,
+  "score_ref": 0.34,
+  "score_cur": 0.415,
+  "label_ref": 0.288,
+  "label_cur": 0.385
+ },
+ "portfolio": {
+  "total": 8787,
+  "movies": 6124,
+  "shows": 2663,
+  "yearly": [
+   {
+    "year": 2015,
+    "movies": 56,
+    "shows": 26
+   },
+   {
+    "year": 2016,
+    "movies": 251,
+    "shows": 175
+   },
+   {
+    "year": 2017,
+    "movies": 836,
+    "shows": 349
+   },
+   {
+    "year": 2018,
+    "movies": 1236,
+    "shows": 411
+   },
+   {
+    "year": 2019,
+    "movies": 1423,
+    "shows": 591
+   },
+   {
+    "year": 2020,
+    "movies": 1284,
+    "shows": 595
+   },
+   {
+    "year": 2021,
+    "movies": 993,
+    "shows": 505
+   }
+  ],
+  "genres": [
+   {
+    "name": "International Movies",
+    "movies": 2752,
+    "shows": 0
+   },
+   {
+    "name": "Dramas",
+    "movies": 2424,
+    "shows": 0
+   },
+   {
+    "name": "Comedies",
+    "movies": 1673,
+    "shows": 0
+   },
+   {
+    "name": "International TV Shows",
+    "movies": 0,
+    "shows": 1348
+   },
+   {
+    "name": "Documentaries",
+    "movies": 869,
+    "shows": 0
+   },
+   {
+    "name": "Action & Adventure",
+    "movies": 859,
+    "shows": 0
+   },
+   {
+    "name": "TV Dramas",
+    "movies": 0,
+    "shows": 761
+   },
+   {
+    "name": "Independent Movies",
+    "movies": 755,
+    "shows": 0
+   },
+   {
+    "name": "Children & Family Movies",
+    "movies": 641,
+    "shows": 0
+   },
+   {
+    "name": "Romantic Movies",
+    "movies": 616,
+    "shows": 0
+   }
+  ],
+  "countries": [
+   {
+    "name": "United States",
+    "movies": 2395,
+    "shows": 845
+   },
+   {
+    "name": "India",
+    "movies": 975,
+    "shows": 81
+   },
+   {
+    "name": "United Kingdom",
+    "movies": 387,
+    "shows": 251
+   },
+   {
+    "name": "Pakistan",
+    "movies": 71,
+    "shows": 349
+   },
+   {
+    "name": "Unknown",
+    "movies": 257,
+    "shows": 30
+   },
+   {
+    "name": "Canada",
+    "movies": 187,
+    "shows": 84
+   },
+   {
+    "name": "Japan",
+    "movies": 87,
+    "shows": 172
+   },
+   {
+    "name": "South Korea",
+    "movies": 49,
+    "shows": 165
+   },
+   {
+    "name": "France",
+    "movies": 148,
+    "shows": 65
+   },
+   {
+    "name": "Spain",
+    "movies": 129,
+    "shows": 53
+   }
+  ],
+  "audience": [
+   {
+    "name": "Kids",
+    "movies": 442,
+    "shows": 464
+   },
+   {
+    "name": "Family",
+    "movies": 827,
+    "shows": 321
+   },
+   {
+    "name": "Teens",
+    "movies": 1916,
+    "shows": 729
+   },
+   {
+    "name": "Adults",
+    "movies": 2861,
+    "shows": 1145
+   }
+  ]
+ },
+ "insights": [
+  {
+   "category": "Genre",
+   "title": "Teen TV Shows, TV Sci-Fi & Fantasy and Kids' TV renew most often",
+   "text": "Teen TV Shows 56% (95% range 45% to 68%, 69 series); TV Sci-Fi & Fantasy 54% (95% range 44% to 64%, 83 series); Kids' TV 51% (95% range 46% to 55%, 448 series). The average is 33%.",
+   "action": "Prioritise these genres when comparing otherwise similar pitches, and check the ranges: smaller genres are less certain.",
+   "impact": 5,
+   "confidence": "Low",
+   "evidence": {
+    "genres": [
+     "Teen TV Shows",
+     "TV Sci-Fi & Fantasy",
+     "Kids' TV"
+    ]
+   },
+   "id": 1
+  },
+  {
+   "category": "Opportunity",
+   "title": "Under-served genres with strong renewal: Teen TV Shows and TV Sci-Fi & Fantasy",
+   "text": "Teen TV Shows renews 56% but makes up only 3% of series (69 titles); TV Sci-Fi & Fantasy renews 54% but makes up only 3% of series (83 titles).",
+   "action": "Consider commissioning more in these niches, and validate with a pilot because the sample is small.",
+   "impact": 5,
+   "confidence": "Low",
+   "evidence": {
+    "genres": [
+     "Teen TV Shows",
+     "TV Sci-Fi & Fantasy"
+    ]
+   },
+   "id": 2
+  },
+  {
+   "category": "Success",
+   "title": "Only 33% of series reach a second season",
+   "text": "Across 2,663 TV series, 873 have two or more seasons. This is the success benchmark every segment below is compared with.",
+   "action": "Treat a second season as a stretch outcome. A new concept needs to beat 33% to be above average.",
+   "impact": 4,
+   "confidence": "High",
+   "evidence": {
+    "rate": 0.328,
+    "n": 2663
+   },
+   "id": 3
+  },
+  {
+   "category": "Audience",
+   "title": "Kids' series renew 48% of the time, adult series 32%",
+   "text": "Adults 32% (1145); Family 26% (321); Kids 48% (464); Teens 27% (729). Children's content is easier to keep alive across seasons.",
+   "action": "Family and kids content is the safest bet for multi-season planning.",
+   "impact": 4,
+   "confidence": "High",
+   "evidence": {
+    "kids": 0.481,
+    "adults": 0.324
+   },
+   "id": 4
+  },
+  {
+   "category": "Risk",
+   "title": "Large share of series sits in low-renewal genres: International TV Shows and Docuseries",
+   "text": "International TV Shows is 51% of all series but renews only 22%; Docuseries is 15% of all series but renews only 16%.",
+   "action": "Check whether these titles are meant as limited series. If not, the portfolio is exposed to cancellations.",
+   "impact": 4,
+   "confidence": "High",
+   "evidence": {
+    "genres": [
+     "International TV Shows",
+     "Docuseries"
+    ]
+   },
+   "id": 5
+  },
+  {
+   "category": "Model",
+   "title": "The model ranks series well: its top 20% of picks hold 39% of renewals",
+   "text": "The ensemble reaches an AUC of 0.7441 on 533 series it never saw, with a lift of 1.94x in the top 20% of its scores. At a threshold of 0.34 it finds 76% of renewals with 48% precision.",
+   "action": "Use it to screen and rank concepts, not to make a final decision. Metadata alone cannot see script quality, cast or marketing.",
+   "impact": 4,
+   "confidence": "High",
+   "evidence": {
+    "auc": 0.7441,
+    "lift": 1.94
+   },
+   "id": 6
+  },
+  {
+   "category": "Genre",
+   "title": "Science & Nature TV, Romantic TV Shows and Docuseries rarely get a second season",
+   "text": "Science & Nature TV 14% (92 series); Romantic TV Shows 16% (370 series); Docuseries 16% (394 series), against an average of 33%.",
+   "action": "Plan these as limited series or one-off events, and avoid budgeting for multiple seasons.",
+   "impact": 4,
+   "confidence": "Medium",
+   "evidence": {
+    "genres": [
+     "Science & Nature TV",
+     "Romantic TV Shows",
+     "Docuseries"
+    ]
+   },
+   "id": 7
+  },
+  {
+   "category": "Portfolio",
+   "title": "The catalogue is 70% movies, and additions peaked in 2019",
+   "text": "Of 8,787 titles, 6,124 are movies and 2,663 are TV series. Additions rose every year until 2019 (2,014 titles) and were 1,879 in 2020, 7% below the peak.",
+   "action": "Use the peak year as the benchmark when judging whether acquisition volume is recovering.",
+   "impact": 3,
+   "confidence": "High",
+   "evidence": {
+    "titles": 8787,
+    "peak_year": 2019
+   },
+   "id": 8
+  },
+  {
+   "category": "Model",
+   "title": "Genre profile is the strongest driver, followed by country and timing",
+   "text": "Shuffling genre profile information lowers the model's AUC by 0.101, country by 0.075 and timing by 0.025. Features that barely move the score add little and could be dropped.",
+   "action": "Spend modelling and data-collection effort on the strongest drivers first.",
+   "impact": 3,
+   "confidence": "High",
+   "evidence": {
+    "top": [
+     "Genre profile",
+     "Country",
+     "Timing"
+    ]
+   },
+   "id": 9
+  },
+  {
+   "category": "Data",
+   "title": "The success signal has limits: later arrivals renew more (21% in 2016, 42% in 2021)",
+   "text": "Seasons are counted on the platform at the time of the data snapshot. Series that were licensed after running elsewhere can arrive with several seasons already, so the signal mixes renewals with licensing.",
+   "action": "Read renewal as a proxy for sustained demand. Replace it with viewing hours or retention when that data is available.",
+   "impact": 3,
+   "confidence": "High",
+   "evidence": {
+    "first": 0.206,
+    "last": 0.418
+   },
+   "id": 10
+  },
+  {
+   "category": "Data",
+   "title": "Data quality: 29% of titles have no director and 3% no country",
+   "text": "Missing creator and country information limits what any model can learn. 2 validation warnings were raised: Duplicate titles; Missing director.",
+   "action": "Enrich the catalogue with cast, budget, viewing hours and review scores. A true success metric would transform this engine.",
+   "impact": 3,
+   "confidence": "High",
+   "evidence": {
+    "warnings": 2
+   },
+   "id": 11
+  },
+  {
+   "category": "Market",
+   "title": "Country matters: Canada leads and Taiwan trails",
+   "text": "Canada series renew 67% of the time (84 series), while Taiwan renews 1% (71). Next best are United States (46%) and Australia (42%).",
+   "action": "Use country as a context signal, not a rule. Production country mixes with genre, so check the genre insight too.",
+   "impact": 3,
+   "confidence": "Medium",
+   "evidence": {
+    "top": "Canada",
+    "bottom": "Taiwan"
+   },
+   "id": 12
+  },
+  {
+   "category": "Model",
+   "title": "Model-implied levers: adding Teen TV Shows helps, adding Docuseries hurts",
+   "text": "Holding everything else fixed, the model predicts +11.4 points of renewal chance from adding Teen TV Shows and +9.4 from TV Action & Adventure, but -9.1 from Docuseries and -6.9 from International TV Shows.",
+   "action": "Use these as discussion points for concept design. They describe patterns in past data, not guaranteed effects.",
+   "impact": 3,
+   "confidence": "Medium",
+   "evidence": {
+    "up": "Teen TV Shows",
+    "down": "Docuseries"
+   },
+   "id": 13
+  },
+  {
+   "category": "Trend",
+   "title": "Since 2020 Reality TV grew and International TV Shows shrank in the series mix",
+   "text": "Among series added in 2020 or later, Reality TV is +4.4 percentage points of the mix compared with earlier years, and International TV Shows is -7.9. Next: Kids' TV (+3.2) and British TV Shows (-4.7).",
+   "action": "Compare this shift with the renewal rates above to see if investment is moving towards or away from strong genres.",
+   "impact": 3,
+   "confidence": "Medium",
+   "evidence": {
+    "up": "Reality TV",
+    "down": "International TV Shows"
+   },
+   "id": 14
+  },
+  {
+   "category": "Timing",
+   "title": "The month a series is added makes little difference",
+   "text": "Looking at complete years (2016 to 2020), a chi-square test of month added against renewal gives p = 0.107, so there is no reliable timing effect.",
+   "action": "Do not rely on launch month to improve the odds of a second season.",
+   "impact": 2,
+   "confidence": "High",
+   "evidence": {
+    "p_value": 0.107
+   },
+   "id": 15
+  },
+  {
+   "category": "Creator",
+   "title": "Series with a credited director renew less (20% against 34%)",
+   "text": "Only 249 series list a director. They renew 20% of the time, compared with 34% for the 2,414 that do not.",
+   "action": "A credited director often marks a limited series or a film-like production, which is not planned for more seasons. Do not read this as directors causing cancellations.",
+   "impact": 2,
+   "confidence": "Medium",
+   "evidence": {
+    "with": 0.197,
+    "without": 0.341
+   },
+   "id": 16
+  },
+  {
+   "category": "Model",
+   "title": "The model is weakest on this slice: Director credited: yes",
+   "text": "AUC is 0.581 on 42 test series in this slice, compared with 0.7441 overall.",
+   "action": "Add more data or a dedicated model before using scores for this segment.",
+   "impact": 2,
+   "confidence": "Medium",
+   "evidence": {
+    "slice": "Director credited: yes"
+   },
+   "id": 17
+  },
+  {
+   "category": "Monitoring",
+   "title": "Series added since 2020 differ most in: years to add (PSI 0.172)",
+   "text": "Population stability index compares series added in 2019 or earlier with those added since. Below 0.10 is stable, 0.10 to 0.25 moderate, above 0.25 large. The real renewal rate moved from 29% to 38% and the model's average prediction from 34% to 42%.",
+   "action": "Retrain on a schedule and watch this table. A large shift means new series look different from the ones the model learned from.",
+   "impact": 2,
+   "confidence": "Medium",
+   "evidence": {
+    "psi": 0.172
+   },
+   "id": 18
+  }
+ ],
+ "summary": "Of 2,663 TV series in the catalogue, 33% reached a second season, which is used here as the success signal. Renewal is strongest in Teen TV Shows (56%) and TV Sci-Fi & Fantasy (54%) and weakest in Science & Nature TV (14%). An ensemble of three models trained on 2,130 series ranks unseen series with an AUC of 0.7441, and its top 20% of picks contain 39% of all renewals. Under-served genres with strong renewal: Teen TV Shows and TV Sci-Fi & Fantasy. Large share of series sits in low-renewal genres: International TV Shows and Docuseries. Genre profile information drives the predictions most.",
+ "registry": {
+  "versions": [
+   {
+    "version": 1,
+    "run_id": "20261006-040539",
+    "created": "2026-10-06T04:07:21",
+    "data_hash": "388d1ebd78d4",
+    "model": "Ensemble (average of three)",
+    "test_auc": 0.7441,
+    "cv_auc": 0.7641,
+    "artifact": "models/success_v1.pkl",
+    "status": "archived"
+   },
+   {
+    "version": 2,
+    "run_id": "20261008-135226",
+    "created": "2026-10-08T13:54:57",
+    "data_hash": "388d1ebd78d4",
+    "model": "Ensemble (average of three)",
+    "test_auc": 0.7441,
+    "cv_auc": 0.7641,
+    "artifact": "models/success_v2.pkl",
+    "status": "production"
+   }
+  ],
+  "production": 2
+ },
+ "card": {
+  "name": "Series renewal model (Ensemble (average of three))",
+  "intended_use": "Rank TV series concepts by their chance of reaching a second season, as one input to planning and portfolio review.",
+  "not_for": "Final greenlight decisions, predicting audience size, or judging movies.",
+  "data": "Netflix catalogue metadata snapshot (hash 388d1ebd78d4), 2,663 TV series.",
+  "target": "Two or more seasons on the platform. 33% of series.",
+  "metrics": "AUC 0.7441, average precision 0.5801, Brier score 0.1867 on 533 unseen series.",
+  "threshold": "0.34, chosen on training data to maximise F1.",
+  "limits": [
+   "The target is a proxy for success, not viewing hours or profit.",
+   "Seasons include licensed series that ran elsewhere, so the target mixes renewals with licensing.",
+   "Only catalogue metadata is used: no cast, budget, script, marketing or reviews.",
+   "Effects shown for genres and countries are patterns in past data, not causal effects."
+  ]
+ }
+}

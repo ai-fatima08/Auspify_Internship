@@ -1,0 +1,4294 @@
+{
+ "rows": 8787,
+ "columns": 69,
+ "components": 21,
+ "variance_kept": 0.857,
+ "weights": {
+  "Genres": 1.0,
+  "Type": 1.0,
+  "Audience rating": 1.0,
+  "Country": 0.7,
+  "Numbers": 0.5
+ },
+ "features": [
+  {
+   "name": "Genres",
+   "kind": "Categorical",
+   "how": "Multi-hot encoding (one column per genre)",
+   "weight": 1.0,
+   "note": "The main content signal."
+  },
+  {
+   "name": "Movie or TV show",
+   "kind": "Categorical",
+   "how": "One-hot encoding",
+   "weight": 1.0,
+   "note": "Movies and shows are built very differently."
+  },
+  {
+   "name": "Audience rating",
+   "kind": "Categorical",
+   "how": "Kids, Family, Teens, Adults or Unrated, one-hot",
+   "weight": 1.0,
+   "note": "The 14 raw ratings grouped as in Task 3."
+  },
+  {
+   "name": "Country (first listed)",
+   "kind": "Categorical",
+   "how": "One-hot, top 15 countries plus Other",
+   "weight": 0.7,
+   "note": "Down-weighted so country does not dominate."
+  },
+  {
+   "name": "Release year",
+   "kind": "Numerical",
+   "how": "StandardScaler (mean 0, spread 1)",
+   "weight": 0.5,
+   "note": ""
+  },
+  {
+   "name": "Length (minutes and seasons)",
+   "kind": "Numerical",
+   "how": "Two StandardScaler columns",
+   "weight": 0.5,
+   "note": "Minutes for movies, seasons for shows."
+  },
+  {
+   "name": "Number of genres",
+   "kind": "Numerical",
+   "how": "StandardScaler",
+   "weight": 0.5,
+   "note": ""
+  },
+  {
+   "name": "Director listed",
+   "kind": "Left out",
+   "how": "",
+   "weight": 0,
+   "note": "Almost the same information as movie or show, so it would count it twice."
+  },
+  {
+   "name": "Title, ID, director name, date added",
+   "kind": "Left out",
+   "how": "",
+   "weight": 0,
+   "note": "Unique text or identifiers with no group structure."
+  }
+ ],
+ "runs": [
+  {
+   "k": 2,
+   "inertia": 24405.9,
+   "silhouette": 0.2744,
+   "davies_bouldin": 1.505,
+   "smallest_share": 0.3031
+  },
+  {
+   "k": 3,
+   "inertia": 21571.8,
+   "silhouette": 0.1984,
+   "davies_bouldin": 1.962,
+   "smallest_share": 0.3029
+  },
+  {
+   "k": 4,
+   "inertia": 20071.5,
+   "silhouette": 0.1864,
+   "davies_bouldin": 1.88,
+   "smallest_share": 0.2063
+  },
+  {
+   "k": 5,
+   "inertia": 18895.8,
+   "silhouette": 0.1789,
+   "davies_bouldin": 2.008,
+   "smallest_share": 0.13
+  },
+  {
+   "k": 6,
+   "inertia": 17584.8,
+   "silhouette": 0.1801,
+   "davies_bouldin": 1.877,
+   "smallest_share": 0.0462
+  },
+  {
+   "k": 7,
+   "inertia": 16602.9,
+   "silhouette": 0.1802,
+   "davies_bouldin": 1.882,
+   "smallest_share": 0.0397
+  },
+  {
+   "k": 8,
+   "inertia": 15913.1,
+   "silhouette": 0.1788,
+   "davies_bouldin": 1.842,
+   "smallest_share": 0.0391
+  },
+  {
+   "k": 9,
+   "inertia": 15182.2,
+   "silhouette": 0.1987,
+   "davies_bouldin": 1.807,
+   "smallest_share": 0.0327
+  },
+  {
+   "k": 10,
+   "inertia": 14601.8,
+   "silhouette": 0.1946,
+   "davies_bouldin": 1.763,
+   "smallest_share": 0.0343
+  },
+  {
+   "k": 11,
+   "inertia": 13949.8,
+   "silhouette": 0.201,
+   "davies_bouldin": 1.712,
+   "smallest_share": 0.0214
+  },
+  {
+   "k": 12,
+   "inertia": 13430.2,
+   "silhouette": 0.2065,
+   "davies_bouldin": 1.656,
+   "smallest_share": 0.0204
+  }
+ ],
+ "best_k": 9,
+ "min_share": 0.03,
+ "algorithms": [
+  {
+   "name": "K-Means",
+   "silhouette": 0.1987,
+   "davies_bouldin": 1.807,
+   "calinski_harabasz": 1288.0,
+   "agreement": 1.0,
+   "smallest_share": 0.0327
+  },
+  {
+   "name": "Agglomerative (Ward)",
+   "silhouette": 0.1707,
+   "davies_bouldin": 1.949,
+   "calinski_harabasz": 1148.0,
+   "agreement": 0.572,
+   "smallest_share": 0.0237
+  },
+  {
+   "name": "Gaussian Mixture",
+   "silhouette": 0.1582,
+   "davies_bouldin": 2.537,
+   "calinski_harabasz": 1060.0,
+   "agreement": 0.669,
+   "smallest_share": 0.0599
+  }
+ ],
+ "stability": 0.697,
+ "profiles": {
+  "2": [
+   {
+    "id": 0,
+    "size": 6124,
+    "share": 0.6969,
+    "movie_share": 1.0,
+    "median_year": 2016,
+    "avg_genres": 2.15,
+    "audience": {
+     "Kids": 0.072,
+     "Family": 0.135,
+     "Teens": 0.313,
+     "Adults": 0.467,
+     "Unrated": 0.013
+    },
+    "genres": [
+     {
+      "name": "International Movies",
+      "share": 0.449
+     },
+     {
+      "name": "Dramas",
+      "share": 0.396
+     },
+     {
+      "name": "Comedies",
+      "share": 0.273
+     },
+     {
+      "name": "Documentaries",
+      "share": 0.142
+     }
+    ],
+    "countries": [
+     {
+      "name": "United States",
+      "share": 0.391
+     },
+     {
+      "name": "India",
+      "share": 0.159
+     },
+     {
+      "name": "United Kingdom",
+      "share": 0.063
+     }
+    ],
+    "examples": [
+     {
+      "id": 4885,
+      "title": "Fifty",
+      "year": 2015
+     },
+     {
+      "id": 4779,
+      "title": "Diary of a Chambermaid",
+      "year": 2015
+     },
+     {
+      "id": 4360,
+      "title": "Across The Line",
+      "year": 2015
+     },
+     {
+      "id": 6354,
+      "title": "Thorne: Sleepyhead",
+      "year": 2010
+     },
+     {
+      "id": 6353,
+      "title": "Thorne: Scaredy Cat",
+      "year": 2010
+     }
+    ],
+    "name": "International Movies",
+    "summary": "70% of the catalogue. Mostly movies, rated for a mix of audiences. Typical genres: International Movies, Dramas, Comedies. Most often from United States (39%). Median release year 2016."
+   },
+   {
+    "id": 1,
+    "size": 2663,
+    "share": 0.3031,
+    "movie_share": 0.0,
+    "median_year": 2018,
+    "avg_genres": 2.29,
+    "audience": {
+     "Kids": 0.174,
+     "Family": 0.121,
+     "Teens": 0.274,
+     "Adults": 0.43,
+     "Unrated": 0.002
+    },
+    "genres": [
+     {
+      "name": "International TV Shows",
+      "share": 0.506
+     },
+     {
+      "name": "TV Dramas",
+      "share": 0.286
+     },
+     {
+      "name": "TV Comedies",
+      "share": 0.215
+     },
+     {
+      "name": "Crime TV Shows",
+      "share": 0.176
+     }
+    ],
+    "countries": [
+     {
+      "name": "United States",
+      "share": 0.317
+     },
+     {
+      "name": "Pakistan",
+      "share": 0.131
+     },
+     {
+      "name": "United Kingdom",
+      "share": 0.094
+     }
+    ],
+    "examples": [
+     {
+      "id": 445,
+      "title": "Battlefish",
+      "year": 2018
+     },
+     {
+      "id": 269,
+      "title": "Dating Around",
+      "year": 2020
+     },
+     {
+      "id": 7164,
+      "title": "Single Wives",
+      "year": 2018
+     },
+     {
+      "id": 7632,
+      "title": "Yummy Mummies",
+      "year": 2019
+     },
+     {
+      "id": 7645,
+      "title": "Instant Hotel",
+      "year": 2019
+     }
+    ],
+    "name": "International TV Shows",
+    "summary": "30% of the catalogue. Mostly TV shows, rated for a mix of audiences. Typical genres: International TV Shows, TV Dramas, TV Comedies. Most often from United States (32%). Median release year 2018."
+   }
+  ],
+  "3": [
+   {
+    "id": 0,
+    "size": 3170,
+    "share": 0.3608,
+    "movie_share": 1.0,
+    "median_year": 2016,
+    "avg_genres": 1.67,
+    "audience": {
+     "Kids": 0.122,
+     "Family": 0.16,
+     "Teens": 0.211,
+     "Adults": 0.494,
+     "Unrated": 0.013
+    },
+    "genres": [
+     {
+      "name": "Children & Family Movies",
+      "share": 0.19
+     },
+     {
+      "name": "Comedies",
+      "share": 0.235
+     },
+     {
+      "name": "Documentaries",
+      "share": 0.186
+     },
+     {
+      "name": "Dramas",
+      "share": 0.23
+     }
+    ],
+    "countries": [
+     {
+      "name": "United States",
+      "share": 0.731
+     },
+     {
+      "name": "United Kingdom",
+      "share": 0.073
+     },
+     {
+      "name": "Canada",
+      "share": 0.043
+     }
+    ],
+    "examples": [
+     {
+      "id": 5271,
+      "title": "Kristy",
+      "year": 2013
+     },
+     {
+      "id": 430,
+      "title": "American Masters: Inventing David Geffen",
+      "year": 2012
+     },
+     {
+      "id": 5129,
+      "title": "Iliza Shlesinger: War Paint",
+      "year": 2013
+     },
+     {
+      "id": 5789,
+      "title": "Russell Peters: Notorious",
+      "year": 2013
+     },
+     {
+      "id": 2344,
+      "title": "Justice",
+      "year": 2017
+     }
+    ],
+    "name": "Children & Family Movies",
+    "summary": "36% of the catalogue. Mostly movies, rated for a mix of audiences. Typical genres: Children & Family Movies, Comedies, Documentaries. Most often from United States (73%). Median release year 2016."
+   },
+   {
+    "id": 1,
+    "size": 2955,
+    "share": 0.3363,
+    "movie_share": 1.0,
+    "median_year": 2016,
+    "avg_genres": 2.67,
+    "audience": {
+     "Kids": 0.019,
+     "Family": 0.108,
+     "Teens": 0.422,
+     "Adults": 0.438,
+     "Unrated": 0.013
+    },
+    "genres": [
+     {
+      "name": "International Movies",
+      "share": 0.924
+     },
+     {
+      "name": "Dramas",
+      "share": 0.574
+     },
+     {
+      "name": "Comedies",
+      "share": 0.314
+     },
+     {
+      "name": "Romantic Movies",
+      "share": 0.14
+     }
+    ],
+    "countries": [
+     {
+      "name": "India",
+      "share": 0.312
+     },
+     {
+      "name": "United Kingdom",
+      "share": 0.053
+     },
+     {
+      "name": "Unknown",
+      "share": 0.05
+     }
+    ],
+    "examples": [
+     {
+      "id": 4885,
+      "title": "Fifty",
+      "year": 2015
+     },
+     {
+      "id": 4779,
+      "title": "Diary of a Chambermaid",
+      "year": 2015
+     },
+     {
+      "id": 5153,
+      "title": "Into the Forest",
+      "year": 2015
+     },
+     {
+      "id": 5750,
+      "title": "Revelations",
+      "year": 2016
+     },
+     {
+      "id": 6354,
+      "title": "Thorne: Sleepyhead",
+      "year": 2010
+     }
+    ],
+    "name": "International Movies",
+    "summary": "34% of the catalogue. Mostly movies, rated for a mix of audiences. Typical genres: International Movies, Dramas, Comedies. Most often from India (31%). Median release year 2016."
+   },
+   {
+    "id": 2,
+    "size": 2662,
+    "share": 0.3029,
+    "movie_share": 0.0,
+    "median_year": 2018,
+    "avg_genres": 2.29,
+    "audience": {
+     "Kids": 0.174,
+     "Family": 0.121,
+     "Teens": 0.274,
+     "Adults": 0.43,
+     "Unrated": 0.002
+    },
+    "genres": [
+     {
+      "name": "International TV Shows",
+      "share": 0.506
+     },
+     {
+      "name": "TV Dramas",
+      "share": 0.286
+     },
+     {
+      "name": "TV Comedies",
+      "share": 0.215
+     },
+     {
+      "name": "Crime TV Shows",
+      "share": 0.176
+     }
+    ],
+    "countries": [
+     {
+      "name": "United States",
+      "share": 0.317
+     },
+     {
+      "name": "Pakistan",
+      "share": 0.131
+     },
+     {
+      "name": "United Kingdom",
+      "share": 0.094
+     }
+    ],
+    "examples": [
+     {
+      "id": 445,
+      "title": "Battlefish",
+      "year": 2018
+     },
+     {
+      "id": 269,
+      "title": "Dating Around",
+      "year": 2020
+     },
+     {
+      "id": 7164,
+      "title": "Single Wives",
+      "year": 2018
+     },
+     {
+      "id": 7645,
+      "title": "Instant Hotel",
+      "year": 2019
+     },
+     {
+      "id": 7632,
+      "title": "Yummy Mummies",
+      "year": 2019
+     }
+    ],
+    "name": "International TV Shows",
+    "summary": "30% of the catalogue. Mostly TV shows, rated for a mix of audiences. Typical genres: International TV Shows, TV Dramas, TV Comedies. Most often from United States (32%). Median release year 2018."
+   }
+  ],
+  "4": [
+   {
+    "id": 0,
+    "size": 2663,
+    "share": 0.3031,
+    "movie_share": 0.0,
+    "median_year": 2018,
+    "avg_genres": 2.29,
+    "audience": {
+     "Kids": 0.174,
+     "Family": 0.121,
+     "Teens": 0.274,
+     "Adults": 0.43,
+     "Unrated": 0.002
+    },
+    "genres": [
+     {
+      "name": "International TV Shows",
+      "share": 0.506
+     },
+     {
+      "name": "TV Dramas",
+      "share": 0.286
+     },
+     {
+      "name": "TV Comedies",
+      "share": 0.215
+     },
+     {
+      "name": "Crime TV Shows",
+      "share": 0.176
+     }
+    ],
+    "countries": [
+     {
+      "name": "United States",
+      "share": 0.317
+     },
+     {
+      "name": "Pakistan",
+      "share": 0.131
+     },
+     {
+      "name": "United Kingdom",
+      "share": 0.094
+     }
+    ],
+    "examples": [
+     {
+      "id": 445,
+      "title": "Battlefish",
+      "year": 2018
+     },
+     {
+      "id": 269,
+      "title": "Dating Around",
+      "year": 2020
+     },
+     {
+      "id": 7164,
+      "title": "Single Wives",
+      "year": 2018
+     },
+     {
+      "id": 7632,
+      "title": "Yummy Mummies",
+      "year": 2019
+     },
+     {
+      "id": 7645,
+      "title": "Instant Hotel",
+      "year": 2019
+     }
+    ],
+    "name": "International TV Shows",
+    "summary": "30% of the catalogue. Mostly TV shows, rated for a mix of audiences. Typical genres: International TV Shows, TV Dramas, TV Comedies. Most often from United States (32%). Median release year 2018."
+   },
+   {
+    "id": 1,
+    "size": 2414,
+    "share": 0.2747,
+    "movie_share": 1.0,
+    "median_year": 2017,
+    "avg_genres": 1.44,
+    "audience": {
+     "Kids": 0.164,
+     "Family": 0.205,
+     "Teens": 0.174,
+     "Adults": 0.44,
+     "Unrated": 0.017
+    },
+    "genres": [
+     {
+      "name": "Children & Family Movies",
+      "share": 0.239
+     },
+     {
+      "name": "Documentaries",
+      "share": 0.26
+     },
+     {
+      "name": "Stand-Up Comedy",
+      "share": 0.142
+     },
+     {
+      "name": "Comedies",
+      "share": 0.203
+     }
+    ],
+    "countries": [
+     {
+      "name": "United States",
+      "share": 0.689
+     },
+     {
+      "name": "United Kingdom",
+      "share": 0.074
+     },
+     {
+      "name": "Unknown",
+      "share": 0.045
+     }
+    ],
+    "examples": [
+     {
+      "id": 5271,
+      "title": "Kristy",
+      "year": 2013
+     },
+     {
+      "id": 5129,
+      "title": "Iliza Shlesinger: War Paint",
+      "year": 2013
+     },
+     {
+      "id": 5789,
+      "title": "Russell Peters: Notorious",
+      "year": 2013
+     },
+     {
+      "id": 4547,
+      "title": "Bill Burr: Let It Go",
+      "year": 2010
+     },
+     {
+      "id": 2344,
+      "title": "Justice",
+      "year": 2017
+     }
+    ],
+    "name": "Children & Family Movies",
+    "summary": "27% of the catalogue. Mostly movies, rated for a mix of audiences. Typical genres: Children & Family Movies, Documentaries, Stand-Up Comedy. Most often from United States (69%). Median release year 2017."
+   },
+   {
+    "id": 2,
+    "size": 1897,
+    "share": 0.2159,
+    "movie_share": 1.0,
+    "median_year": 2015,
+    "avg_genres": 2.64,
+    "audience": {
+     "Kids": 0.023,
+     "Family": 0.172,
+     "Teens": 0.789,
+     "Adults": 0.0,
+     "Unrated": 0.016
+    },
+    "genres": [
+     {
+      "name": "International Movies",
+      "share": 0.761
+     },
+     {
+      "name": "Dramas",
+      "share": 0.569
+     },
+     {
+      "name": "Comedies",
+      "share": 0.378
+     },
+     {
+      "name": "Romantic Movies",
+      "share": 0.196
+     }
+    ],
+    "countries": [
+     {
+      "name": "India",
+      "share": 0.365
+     },
+     {
+      "name": "United States",
+      "share": 0.164
+     },
+     {
+      "name": "Unknown",
+      "share": 0.045
+     }
+    ],
+    "examples": [
+     {
+      "id": 2124,
+      "title": "The International Player",
+      "year": 2009
+     },
+     {
+      "id": 3569,
+      "title": "Orbiter 9",
+      "year": 2017
+     },
+     {
+      "id": 4401,
+      "title": "Amar's Hands",
+      "year": 2011
+     },
+     {
+      "id": 5814,
+      "title": "Sarah's Key",
+      "year": 2010
+     },
+     {
+      "id": 1980,
+      "title": "Sorry To Disturb",
+      "year": 2008
+     }
+    ],
+    "name": "Teen International Movies",
+    "summary": "22% of the catalogue. Mostly movies, mostly rated for teens (79%). Typical genres: International Movies, Dramas, Comedies. Most often from India (36%). Median release year 2015."
+   },
+   {
+    "id": 3,
+    "size": 1813,
+    "share": 0.2063,
+    "movie_share": 1.0,
+    "median_year": 2017,
+    "avg_genres": 2.59,
+    "audience": {
+     "Kids": 0.001,
+     "Family": 0.002,
+     "Teens": 0.0,
+     "Adults": 0.992,
+     "Unrated": 0.004
+    },
+    "genres": [
+     {
+      "name": "International Movies",
+      "share": 0.684
+     },
+     {
+      "name": "Dramas",
+      "share": 0.636
+     },
+     {
+      "name": "Independent Movies",
+      "share": 0.28
+     },
+     {
+      "name": "Comedies",
+      "share": 0.257
+     }
+    ],
+    "countries": [
+     {
+      "name": "United States",
+      "share": 0.232
+     },
+     {
+      "name": "India",
+      "share": 0.126
+     },
+     {
+      "name": "United Kingdom",
+      "share": 0.071
+     }
+    ],
+    "examples": [
+     {
+      "id": 5153,
+      "title": "Into the Forest",
+      "year": 2015
+     },
+     {
+      "id": 5067,
+      "title": "Holding the Man",
+      "year": 2015
+     },
+     {
+      "id": 3049,
+      "title": "Up Among  The Stars",
+      "year": 2018
+     },
+     {
+      "id": 879,
+      "title": "The Girl King",
+      "year": 2015
+     },
+     {
+      "id": 2934,
+      "title": "Mirage",
+      "year": 2018
+     }
+    ],
+    "name": "Adult International Movies",
+    "summary": "21% of the catalogue. Mostly movies, mostly rated for adults (99%). Typical genres: International Movies, Dramas, Independent Movies. Most often from United States (23%). Median release year 2017."
+   }
+  ],
+  "5": [
+   {
+    "id": 0,
+    "size": 2864,
+    "share": 0.3259,
+    "movie_share": 1.0,
+    "median_year": 2017,
+    "avg_genres": 2.11,
+    "audience": {
+     "Kids": 0.0,
+     "Family": 0.0,
+     "Teens": 0.0,
+     "Adults": 0.997,
+     "Unrated": 0.003
+    },
+    "genres": [
+     {
+      "name": "Dramas",
+      "share": 0.422
+     },
+     {
+      "name": "International Movies",
+      "share": 0.429
+     },
+     {
+      "name": "Independent Movies",
+      "share": 0.191
+     },
+     {
+      "name": "Comedies",
+      "share": 0.214
+     }
+    ],
+    "countries": [
+     {
+      "name": "United States",
+      "share": 0.419
+     },
+     {
+      "name": "India",
+      "share": 0.081
+     },
+     {
+      "name": "United Kingdom",
+      "share": 0.076
+     }
+    ],
+    "examples": [
+     {
+      "id": 4360,
+      "title": "Across The Line",
+      "year": 2015
+     },
+     {
+      "id": 623,
+      "title": "Fear Street Part 3: 1666",
+      "year": 2021
+     },
+     {
+      "id": 701,
+      "title": "Fear Street Part 1: 1994",
+      "year": 2021
+     },
+     {
+      "id": 4600,
+      "title": "Breath",
+      "year": 2018
+     },
+     {
+      "id": 1399,
+      "title": "Funny Boy",
+      "year": 2020
+     }
+    ],
+    "name": "Dramas Movies",
+    "summary": "33% of the catalogue. Mostly movies, mostly rated for adults (100%). Typical genres: Dramas, International Movies, Independent Movies. Most often from United States (42%). Median release year 2017."
+   },
+   {
+    "id": 1,
+    "size": 1703,
+    "share": 0.1938,
+    "movie_share": 1.0,
+    "median_year": 2015,
+    "avg_genres": 2.69,
+    "audience": {
+     "Kids": 0.017,
+     "Family": 0.157,
+     "Teens": 0.806,
+     "Adults": 0.002,
+     "Unrated": 0.019
+    },
+    "genres": [
+     {
+      "name": "International Movies",
+      "share": 0.835
+     },
+     {
+      "name": "Dramas",
+      "share": 0.608
+     },
+     {
+      "name": "Comedies",
+      "share": 0.364
+     },
+     {
+      "name": "Romantic Movies",
+      "share": 0.187
+     }
+    ],
+    "countries": [
+     {
+      "name": "India",
+      "share": 0.405
+     },
+     {
+      "name": "United States",
+      "share": 0.105
+     },
+     {
+      "name": "Egypt",
+      "share": 0.046
+     }
+    ],
+    "examples": [
+     {
+      "id": 3569,
+      "title": "Orbiter 9",
+      "year": 2017
+     },
+     {
+      "id": 2124,
+      "title": "The International Player",
+      "year": 2009
+     },
+     {
+      "id": 4401,
+      "title": "Amar's Hands",
+      "year": 2011
+     },
+     {
+      "id": 4551,
+      "title": "Bioscope",
+      "year": 2015
+     },
+     {
+      "id": 1164,
+      "title": "Mucize",
+      "year": 2015
+     }
+    ],
+    "name": "International Movies",
+    "summary": "19% of the catalogue. Mostly movies, mostly rated for teens (81%). Typical genres: International Movies, Dramas, Comedies. Most often from India (40%). Median release year 2015."
+   },
+   {
+    "id": 2,
+    "size": 1557,
+    "share": 0.1772,
+    "movie_share": 1.0,
+    "median_year": 2016,
+    "avg_genres": 1.65,
+    "audience": {
+     "Kids": 0.265,
+     "Family": 0.36,
+     "Teens": 0.349,
+     "Adults": 0.001,
+     "Unrated": 0.024
+    },
+    "genres": [
+     {
+      "name": "Children & Family Movies",
+      "share": 0.396
+     },
+     {
+      "name": "Documentaries",
+      "share": 0.263
+     },
+     {
+      "name": "Comedies",
+      "share": 0.282
+     },
+     {
+      "name": "Dramas",
+      "share": 0.116
+     }
+    ],
+    "countries": [
+     {
+      "name": "United States",
+      "share": 0.654
+     },
+     {
+      "name": "United Kingdom",
+      "share": 0.067
+     },
+     {
+      "name": "Unknown",
+      "share": 0.06
+     }
+    ],
+    "examples": [
+     {
+      "id": 5271,
+      "title": "Kristy",
+      "year": 2013
+     },
+     {
+      "id": 4297,
+      "title": "4th Man Out",
+      "year": 2015
+     },
+     {
+      "id": 5129,
+      "title": "Iliza Shlesinger: War Paint",
+      "year": 2013
+     },
+     {
+      "id": 5789,
+      "title": "Russell Peters: Notorious",
+      "year": 2013
+     },
+     {
+      "id": 4547,
+      "title": "Bill Burr: Let It Go",
+      "year": 2010
+     }
+    ],
+    "name": "Children & Family Movies",
+    "summary": "18% of the catalogue. Mostly movies, rated for a mix of audiences. Typical genres: Children & Family Movies, Documentaries, Comedies. Most often from United States (65%). Median release year 2016."
+   },
+   {
+    "id": 3,
+    "size": 1521,
+    "share": 0.1731,
+    "movie_share": 0.0,
+    "median_year": 2018,
+    "avg_genres": 2.78,
+    "audience": {
+     "Kids": 0.012,
+     "Family": 0.089,
+     "Teens": 0.339,
+     "Adults": 0.559,
+     "Unrated": 0.002
+    },
+    "genres": [
+     {
+      "name": "International TV Shows",
+      "share": 0.872
+     },
+     {
+      "name": "TV Dramas",
+      "share": 0.417
+     },
+     {
+      "name": "Crime TV Shows",
+      "share": 0.26
+     },
+     {
+      "name": "Romantic TV Shows",
+      "share": 0.229
+     }
+    ],
+    "countries": [
+     {
+      "name": "Pakistan",
+      "share": 0.14
+     },
+     {
+      "name": "United Kingdom",
+      "share": 0.103
+     },
+     {
+      "name": "United States",
+      "share": 0.101
+     }
+    ],
+    "examples": [
+     {
+      "id": 1760,
+      "title": "Goedam",
+      "year": 2020
+     },
+     {
+      "id": 6951,
+      "title": "Alice in Borderland",
+      "year": 2020
+     },
+     {
+      "id": 7179,
+      "title": "JU-ON: Origins",
+      "year": 2020
+     },
+     {
+      "id": 7590,
+      "title": "Victim Number 8",
+      "year": 2018
+     },
+     {
+      "id": 2522,
+      "title": "Zona Rosa",
+      "year": 2019
+     }
+    ],
+    "name": "International TV Shows",
+    "summary": "17% of the catalogue. Mostly TV shows, mostly rated for adults (56%). Typical genres: International TV Shows, TV Dramas, Crime TV Shows. Most often from Pakistan (14%). Median release year 2018."
+   },
+   {
+    "id": 4,
+    "size": 1142,
+    "share": 0.13,
+    "movie_share": 0.0,
+    "median_year": 2018,
+    "avg_genres": 1.65,
+    "audience": {
+     "Kids": 0.391,
+     "Family": 0.163,
+     "Teens": 0.187,
+     "Adults": 0.258,
+     "Unrated": 0.001
+    },
+    "genres": [
+     {
+      "name": "Kids' TV",
+      "share": 0.391
+     },
+     {
+      "name": "TV Comedies",
+      "share": 0.265
+     },
+     {
+      "name": "Docuseries",
+      "share": 0.216
+     },
+     {
+      "name": "Reality TV",
+      "share": 0.132
+     }
+    ],
+    "countries": [
+     {
+      "name": "United States",
+      "share": 0.606
+     },
+     {
+      "name": "Pakistan",
+      "share": 0.119
+     },
+     {
+      "name": "United Kingdom",
+      "share": 0.082
+     }
+    ],
+    "examples": [
+     {
+      "id": 8508,
+      "title": "Jeopardy!",
+      "year": 2019
+     },
+     {
+      "id": 6913,
+      "title": "Dream Home Makeover",
+      "year": 2021
+     },
+     {
+      "id": 8432,
+      "title": "Fix It and Finish It",
+      "year": 2014
+     },
+     {
+      "id": 6609,
+      "title": "Wheel of Fortune",
+      "year": 2019
+     },
+     {
+      "id": 8373,
+      "title": "Brain Games",
+      "year": 2016
+     }
+    ],
+    "name": "Kids' TV Shows",
+    "summary": "13% of the catalogue. Mostly TV shows, rated for a mix of audiences. Typical genres: Kids' TV, TV Comedies, Docuseries. Most often from United States (61%). Median release year 2018."
+   }
+  ],
+  "6": [
+   {
+    "id": 0,
+    "size": 2305,
+    "share": 0.2623,
+    "movie_share": 1.0,
+    "median_year": 2017,
+    "avg_genres": 1.42,
+    "audience": {
+     "Kids": 0.167,
+     "Family": 0.192,
+     "Teens": 0.179,
+     "Adults": 0.446,
+     "Unrated": 0.016
+    },
+    "genres": [
+     {
+      "name": "Documentaries",
+      "share": 0.262
+     },
+     {
+      "name": "Children & Family Movies",
+      "share": 0.235
+     },
+     {
+      "name": "Stand-Up Comedy",
+      "share": 0.147
+     },
+     {
+      "name": "Comedies",
+      "share": 0.203
+     }
+    ],
+    "countries": [
+     {
+      "name": "United States",
+      "share": 0.683
+     },
+     {
+      "name": "United Kingdom",
+      "share": 0.075
+     },
+     {
+      "name": "Unknown",
+      "share": 0.046
+     }
+    ],
+    "examples": [
+     {
+      "id": 5271,
+      "title": "Kristy",
+      "year": 2013
+     },
+     {
+      "id": 5129,
+      "title": "Iliza Shlesinger: War Paint",
+      "year": 2013
+     },
+     {
+      "id": 5789,
+      "title": "Russell Peters: Notorious",
+      "year": 2013
+     },
+     {
+      "id": 4547,
+      "title": "Bill Burr: Let It Go",
+      "year": 2010
+     },
+     {
+      "id": 2344,
+      "title": "Justice",
+      "year": 2017
+     }
+    ],
+    "name": "Documentaries",
+    "summary": "26% of the catalogue. Mostly movies, rated for a mix of audiences. Typical genres: Documentaries, Children & Family Movies, Stand-Up Comedy. Most often from United States (68%). Median release year 2017."
+   },
+   {
+    "id": 1,
+    "size": 1728,
+    "share": 0.1967,
+    "movie_share": 1.0,
+    "median_year": 2017,
+    "avg_genres": 2.58,
+    "audience": {
+     "Kids": 0.001,
+     "Family": 0.0,
+     "Teens": 0.0,
+     "Adults": 0.995,
+     "Unrated": 0.004
+    },
+    "genres": [
+     {
+      "name": "International Movies",
+      "share": 0.699
+     },
+     {
+      "name": "Dramas",
+      "share": 0.635
+     },
+     {
+      "name": "Independent Movies",
+      "share": 0.282
+     },
+     {
+      "name": "Comedies",
+      "share": 0.258
+     }
+    ],
+    "countries": [
+     {
+      "name": "United States",
+      "share": 0.223
+     },
+     {
+      "name": "India",
+      "share": 0.131
+     },
+     {
+      "name": "United Kingdom",
+      "share": 0.069
+     }
+    ],
+    "examples": [
+     {
+      "id": 5153,
+      "title": "Into the Forest",
+      "year": 2015
+     },
+     {
+      "id": 3049,
+      "title": "Up Among  The Stars",
+      "year": 2018
+     },
+     {
+      "id": 5067,
+      "title": "Holding the Man",
+      "year": 2015
+     },
+     {
+      "id": 879,
+      "title": "The Girl King",
+      "year": 2015
+     },
+     {
+      "id": 2934,
+      "title": "Mirage",
+      "year": 2018
+     }
+    ],
+    "name": "Adult International Movies",
+    "summary": "20% of the catalogue. Mostly movies, mostly rated for adults (100%). Typical genres: International Movies, Dramas, Independent Movies. Most often from United States (22%). Median release year 2017."
+   },
+   {
+    "id": 2,
+    "size": 1691,
+    "share": 0.1924,
+    "movie_share": 1.0,
+    "median_year": 2016,
+    "avg_genres": 2.65,
+    "audience": {
+     "Kids": 0.025,
+     "Family": 0.173,
+     "Teens": 0.787,
+     "Adults": 0.0,
+     "Unrated": 0.015
+    },
+    "genres": [
+     {
+      "name": "International Movies",
+      "share": 0.812
+     },
+     {
+      "name": "Dramas",
+      "share": 0.589
+     },
+     {
+      "name": "Comedies",
+      "share": 0.364
+     },
+     {
+      "name": "Romantic Movies",
+      "share": 0.205
+     }
+    ],
+    "countries": [
+     {
+      "name": "India",
+      "share": 0.378
+     },
+     {
+      "name": "United States",
+      "share": 0.121
+     },
+     {
+      "name": "Unknown",
+      "share": 0.045
+     }
+    ],
+    "examples": [
+     {
+      "id": 3569,
+      "title": "Orbiter 9",
+      "year": 2017
+     },
+     {
+      "id": 1617,
+      "title": "Good Game: The Beginning",
+      "year": 2018
+     },
+     {
+      "id": 1164,
+      "title": "Mucize",
+      "year": 2015
+     },
+     {
+      "id": 3198,
+      "title": "The Giant",
+      "year": 2017
+     },
+     {
+      "id": 5804,
+      "title": "Salem: His Sister's Father",
+      "year": 2014
+     }
+    ],
+    "name": "Teen International Movies",
+    "summary": "19% of the catalogue. Mostly movies, mostly rated for teens (79%). Typical genres: International Movies, Dramas, Comedies. Most often from India (38%). Median release year 2016."
+   },
+   {
+    "id": 3,
+    "size": 1491,
+    "share": 0.1697,
+    "movie_share": 0.0,
+    "median_year": 2018,
+    "avg_genres": 2.78,
+    "audience": {
+     "Kids": 0.012,
+     "Family": 0.091,
+     "Teens": 0.344,
+     "Adults": 0.551,
+     "Unrated": 0.002
+    },
+    "genres": [
+     {
+      "name": "International TV Shows",
+      "share": 0.888
+     },
+     {
+      "name": "TV Dramas",
+      "share": 0.416
+     },
+     {
+      "name": "Crime TV Shows",
+      "share": 0.254
+     },
+     {
+      "name": "Romantic TV Shows",
+      "share": 0.235
+     }
+    ],
+    "countries": [
+     {
+      "name": "Pakistan",
+      "share": 0.142
+     },
+     {
+      "name": "United Kingdom",
+      "share": 0.103
+     },
+     {
+      "name": "South Korea",
+      "share": 0.102
+     }
+    ],
+    "examples": [
+     {
+      "id": 1760,
+      "title": "Goedam",
+      "year": 2020
+     },
+     {
+      "id": 6951,
+      "title": "Alice in Borderland",
+      "year": 2020
+     },
+     {
+      "id": 7179,
+      "title": "JU-ON: Origins",
+      "year": 2020
+     },
+     {
+      "id": 7590,
+      "title": "Victim Number 8",
+      "year": 2018
+     },
+     {
+      "id": 2522,
+      "title": "Zona Rosa",
+      "year": 2019
+     }
+    ],
+    "name": "International TV Shows",
+    "summary": "17% of the catalogue. Mostly TV shows, mostly rated for adults (55%). Typical genres: International TV Shows, TV Dramas, Crime TV Shows. Most often from Pakistan (14%). Median release year 2018."
+   },
+   {
+    "id": 4,
+    "size": 1166,
+    "share": 0.1327,
+    "movie_share": 0.0,
+    "median_year": 2018,
+    "avg_genres": 1.67,
+    "audience": {
+     "Kids": 0.383,
+     "Family": 0.159,
+     "Teens": 0.183,
+     "Adults": 0.275,
+     "Unrated": 0.001
+    },
+    "genres": [
+     {
+      "name": "Kids' TV",
+      "share": 0.383
+     },
+     {
+      "name": "TV Comedies",
+      "share": 0.266
+     },
+     {
+      "name": "Docuseries",
+      "share": 0.219
+     },
+     {
+      "name": "Reality TV",
+      "share": 0.13
+     }
+    ],
+    "countries": [
+     {
+      "name": "United States",
+      "share": 0.609
+     },
+     {
+      "name": "Pakistan",
+      "share": 0.117
+     },
+     {
+      "name": "United Kingdom",
+      "share": 0.082
+     }
+    ],
+    "examples": [
+     {
+      "id": 8508,
+      "title": "Jeopardy!",
+      "year": 2019
+     },
+     {
+      "id": 6913,
+      "title": "Dream Home Makeover",
+      "year": 2021
+     },
+     {
+      "id": 6609,
+      "title": "Wheel of Fortune",
+      "year": 2019
+     },
+     {
+      "id": 8432,
+      "title": "Fix It and Finish It",
+      "year": 2014
+     },
+     {
+      "id": 8373,
+      "title": "Brain Games",
+      "year": 2016
+     }
+    ],
+    "name": "Kids' TV Shows",
+    "summary": "13% of the catalogue. Mostly TV shows, rated for a mix of audiences. Typical genres: Kids' TV, TV Comedies, Docuseries. Most often from United States (61%). Median release year 2018."
+   },
+   {
+    "id": 5,
+    "size": 406,
+    "share": 0.0462,
+    "movie_share": 0.985,
+    "median_year": 1987,
+    "avg_genres": 2.38,
+    "audience": {
+     "Kids": 0.034,
+     "Family": 0.227,
+     "Teens": 0.436,
+     "Adults": 0.283,
+     "Unrated": 0.02
+    },
+    "genres": [
+     {
+      "name": "Classic Movies",
+      "share": 0.281
+     },
+     {
+      "name": "Action & Adventure",
+      "share": 0.347
+     },
+     {
+      "name": "Dramas",
+      "share": 0.409
+     },
+     {
+      "name": "Comedies",
+      "share": 0.352
+     }
+    ],
+    "countries": [
+     {
+      "name": "United States",
+      "share": 0.574
+     },
+     {
+      "name": "India",
+      "share": 0.138
+     },
+     {
+      "name": "Hong Kong",
+      "share": 0.071
+     }
+    ],
+    "examples": [
+     {
+      "id": 6495,
+      "title": "Winter of Our Dreams",
+      "year": 1981
+     },
+     {
+      "id": 5378,
+      "title": "Mad Ron's Prevues from Hell",
+      "year": 1987
+     },
+     {
+      "id": 5736,
+      "title": "Red Dawn",
+      "year": 1984
+     },
+     {
+      "id": 472,
+      "title": "Ferris Bueller's Day Off",
+      "year": 1986
+     },
+     {
+      "id": 5768,
+      "title": "Rocky V",
+      "year": 1990
+     }
+    ],
+    "name": "Classic Movies",
+    "summary": "5% of the catalogue. Mostly movies, rated for a mix of audiences. Typical genres: Classic Movies, Action & Adventure, Dramas. Most often from United States (57%). Median release year 1987."
+   }
+  ],
+  "7": [
+   {
+    "id": 0,
+    "size": 1564,
+    "share": 0.178,
+    "movie_share": 1.0,
+    "median_year": 2016,
+    "avg_genres": 2.67,
+    "audience": {
+     "Kids": 0.017,
+     "Family": 0.153,
+     "Teens": 0.815,
+     "Adults": 0.0,
+     "Unrated": 0.015
+    },
+    "genres": [
+     {
+      "name": "International Movies",
+      "share": 0.85
+     },
+     {
+      "name": "Dramas",
+      "share": 0.612
+     },
+     {
+      "name": "Comedies",
+      "share": 0.361
+     },
+     {
+      "name": "Romantic Movies",
+      "share": 0.195
+     }
+    ],
+    "countries": [
+     {
+      "name": "India",
+      "share": 0.406
+     },
+     {
+      "name": "United States",
+      "share": 0.093
+     },
+     {
+      "name": "Egypt",
+      "share": 0.044
+     }
+    ],
+    "examples": [
+     {
+      "id": 3569,
+      "title": "Orbiter 9",
+      "year": 2017
+     },
+     {
+      "id": 1617,
+      "title": "Good Game: The Beginning",
+      "year": 2018
+     },
+     {
+      "id": 4551,
+      "title": "Bioscope",
+      "year": 2015
+     },
+     {
+      "id": 1164,
+      "title": "Mucize",
+      "year": 2015
+     },
+     {
+      "id": 2896,
+      "title": "Rainbow Jelly",
+      "year": 2018
+     }
+    ],
+    "name": "Teen International Movies",
+    "summary": "18% of the catalogue. Mostly movies, mostly rated for teens (82%). Typical genres: International Movies, Dramas, Comedies. Most often from India (41%). Median release year 2016."
+   },
+   {
+    "id": 1,
+    "size": 1521,
+    "share": 0.1731,
+    "movie_share": 0.0,
+    "median_year": 2018,
+    "avg_genres": 2.78,
+    "audience": {
+     "Kids": 0.012,
+     "Family": 0.089,
+     "Teens": 0.339,
+     "Adults": 0.558,
+     "Unrated": 0.002
+    },
+    "genres": [
+     {
+      "name": "International TV Shows",
+      "share": 0.872
+     },
+     {
+      "name": "TV Dramas",
+      "share": 0.417
+     },
+     {
+      "name": "Crime TV Shows",
+      "share": 0.26
+     },
+     {
+      "name": "Romantic TV Shows",
+      "share": 0.23
+     }
+    ],
+    "countries": [
+     {
+      "name": "Pakistan",
+      "share": 0.141
+     },
+     {
+      "name": "United Kingdom",
+      "share": 0.103
+     },
+     {
+      "name": "United States",
+      "share": 0.101
+     }
+    ],
+    "examples": [
+     {
+      "id": 1760,
+      "title": "Goedam",
+      "year": 2020
+     },
+     {
+      "id": 6951,
+      "title": "Alice in Borderland",
+      "year": 2020
+     },
+     {
+      "id": 7179,
+      "title": "JU-ON: Origins",
+      "year": 2020
+     },
+     {
+      "id": 7590,
+      "title": "Victim Number 8",
+      "year": 2018
+     },
+     {
+      "id": 2522,
+      "title": "Zona Rosa",
+      "year": 2019
+     }
+    ],
+    "name": "International TV Shows",
+    "summary": "17% of the catalogue. Mostly TV shows, mostly rated for adults (56%). Typical genres: International TV Shows, TV Dramas, Crime TV Shows. Most often from Pakistan (14%). Median release year 2018."
+   },
+   {
+    "id": 2,
+    "size": 1483,
+    "share": 0.1688,
+    "movie_share": 1.0,
+    "median_year": 2017,
+    "avg_genres": 2.66,
+    "audience": {
+     "Kids": 0.001,
+     "Family": 0.0,
+     "Teens": 0.0,
+     "Adults": 0.995,
+     "Unrated": 0.005
+    },
+    "genres": [
+     {
+      "name": "International Movies",
+      "share": 0.813
+     },
+     {
+      "name": "Dramas",
+      "share": 0.608
+     },
+     {
+      "name": "Independent Movies",
+      "share": 0.268
+     },
+     {
+      "name": "Comedies",
+      "share": 0.285
+     }
+    ],
+    "countries": [
+     {
+      "name": "India",
+      "share": 0.152
+     },
+     {
+      "name": "United States",
+      "share": 0.119
+     },
+     {
+      "name": "United Kingdom",
+      "share": 0.072
+     }
+    ],
+    "examples": [
+     {
+      "id": 5153,
+      "title": "Into the Forest",
+      "year": 2015
+     },
+     {
+      "id": 3049,
+      "title": "Up Among  The Stars",
+      "year": 2018
+     },
+     {
+      "id": 879,
+      "title": "The Girl King",
+      "year": 2015
+     },
+     {
+      "id": 5067,
+      "title": "Holding the Man",
+      "year": 2015
+     },
+     {
+      "id": 2934,
+      "title": "Mirage",
+      "year": 2018
+     }
+    ],
+    "name": "Adult International Movies",
+    "summary": "17% of the catalogue. Mostly movies, mostly rated for adults (100%). Typical genres: International Movies, Dramas, Independent Movies. Most often from India (15%). Median release year 2017."
+   },
+   {
+    "id": 3,
+    "size": 1441,
+    "share": 0.164,
+    "movie_share": 1.0,
+    "median_year": 2017,
+    "avg_genres": 1.62,
+    "audience": {
+     "Kids": 0.279,
+     "Family": 0.354,
+     "Teens": 0.339,
+     "Adults": 0.0,
+     "Unrated": 0.028
+    },
+    "genres": [
+     {
+      "name": "Children & Family Movies",
+      "share": 0.412
+     },
+     {
+      "name": "Documentaries",
+      "share": 0.273
+     },
+     {
+      "name": "Comedies",
+      "share": 0.281
+     },
+     {
+      "name": "Dramas",
+      "share": 0.102
+     }
+    ],
+    "countries": [
+     {
+      "name": "United States",
+      "share": 0.638
+     },
+     {
+      "name": "United Kingdom",
+      "share": 0.067
+     },
+     {
+      "name": "Unknown",
+      "share": 0.062
+     }
+    ],
+    "examples": [
+     {
+      "id": 5271,
+      "title": "Kristy",
+      "year": 2013
+     },
+     {
+      "id": 4297,
+      "title": "4th Man Out",
+      "year": 2015
+     },
+     {
+      "id": 5129,
+      "title": "Iliza Shlesinger: War Paint",
+      "year": 2013
+     },
+     {
+      "id": 5789,
+      "title": "Russell Peters: Notorious",
+      "year": 2013
+     },
+     {
+      "id": 5691,
+      "title": "Power Rangers Super Megaforce: The Legendary Battle (Extended)",
+      "year": 2014
+     }
+    ],
+    "name": "Children & Family Movies",
+    "summary": "16% of the catalogue. Mostly movies, rated for a mix of audiences. Typical genres: Children & Family Movies, Documentaries, Comedies. Most often from United States (64%). Median release year 2017."
+   },
+   {
+    "id": 4,
+    "size": 1293,
+    "share": 0.1471,
+    "movie_share": 1.0,
+    "median_year": 2017,
+    "avg_genres": 1.45,
+    "audience": {
+     "Kids": 0.0,
+     "Family": 0.0,
+     "Teens": 0.0,
+     "Adults": 1.0,
+     "Unrated": 0.0
+    },
+    "genres": [
+     {
+      "name": "Stand-Up Comedy",
+      "share": 0.229
+     },
+     {
+      "name": "Documentaries",
+      "share": 0.187
+     },
+     {
+      "name": "Action & Adventure",
+      "share": 0.152
+     },
+     {
+      "name": "Horror Movies",
+      "share": 0.112
+     }
+    ],
+    "countries": [
+     {
+      "name": "United States",
+      "share": 0.75
+     },
+     {
+      "name": "United Kingdom",
+      "share": 0.08
+     },
+     {
+      "name": "Canada",
+      "share": 0.043
+     }
+    ],
+    "examples": [
+     {
+      "id": 2344,
+      "title": "Justice",
+      "year": 2017
+     },
+     {
+      "id": 430,
+      "title": "American Masters: Inventing David Geffen",
+      "year": 2012
+     },
+     {
+      "id": 2616,
+      "title": "Sinister 2",
+      "year": 2015
+     },
+     {
+      "id": 5052,
+      "title": "Here Alone",
+      "year": 2016
+     },
+     {
+      "id": 6037,
+      "title": "The Black Room",
+      "year": 2016
+     }
+    ],
+    "name": "Stand-Up Comedy Movies",
+    "summary": "15% of the catalogue. Mostly movies, mostly rated for adults (100%). Typical genres: Stand-Up Comedy, Documentaries, Action & Adventure. Most often from United States (75%). Median release year 2017."
+   },
+   {
+    "id": 5,
+    "size": 1136,
+    "share": 0.1293,
+    "movie_share": 0.0,
+    "median_year": 2018,
+    "avg_genres": 1.65,
+    "audience": {
+     "Kids": 0.393,
+     "Family": 0.163,
+     "Teens": 0.185,
+     "Adults": 0.259,
+     "Unrated": 0.001
+    },
+    "genres": [
+     {
+      "name": "Kids' TV",
+      "share": 0.393
+     },
+     {
+      "name": "TV Comedies",
+      "share": 0.267
+     },
+     {
+      "name": "Docuseries",
+      "share": 0.217
+     },
+     {
+      "name": "Reality TV",
+      "share": 0.132
+     }
+    ],
+    "countries": [
+     {
+      "name": "United States",
+      "share": 0.607
+     },
+     {
+      "name": "Pakistan",
+      "share": 0.118
+     },
+     {
+      "name": "United Kingdom",
+      "share": 0.083
+     }
+    ],
+    "examples": [
+     {
+      "id": 8508,
+      "title": "Jeopardy!",
+      "year": 2019
+     },
+     {
+      "id": 6913,
+      "title": "Dream Home Makeover",
+      "year": 2021
+     },
+     {
+      "id": 8432,
+      "title": "Fix It and Finish It",
+      "year": 2014
+     },
+     {
+      "id": 6609,
+      "title": "Wheel of Fortune",
+      "year": 2019
+     },
+     {
+      "id": 8373,
+      "title": "Brain Games",
+      "year": 2016
+     }
+    ],
+    "name": "Kids' TV Shows",
+    "summary": "13% of the catalogue. Mostly TV shows, rated for a mix of audiences. Typical genres: Kids' TV, TV Comedies, Docuseries. Most often from United States (61%). Median release year 2018."
+   },
+   {
+    "id": 6,
+    "size": 349,
+    "share": 0.0397,
+    "movie_share": 0.983,
+    "median_year": 1984,
+    "avg_genres": 2.46,
+    "audience": {
+     "Kids": 0.034,
+     "Family": 0.226,
+     "Teens": 0.444,
+     "Adults": 0.272,
+     "Unrated": 0.023
+    },
+    "genres": [
+     {
+      "name": "Classic Movies",
+      "share": 0.324
+     },
+     {
+      "name": "Action & Adventure",
+      "share": 0.335
+     },
+     {
+      "name": "Dramas",
+      "share": 0.45
+     },
+     {
+      "name": "Cult Movies",
+      "share": 0.132
+     }
+    ],
+    "countries": [
+     {
+      "name": "United States",
+      "share": 0.53
+     },
+     {
+      "name": "India",
+      "share": 0.16
+     },
+     {
+      "name": "Hong Kong",
+      "share": 0.08
+     }
+    ],
+    "examples": [
+     {
+      "id": 6495,
+      "title": "Winter of Our Dreams",
+      "year": 1981
+     },
+     {
+      "id": 5378,
+      "title": "Mad Ron's Prevues from Hell",
+      "year": 1987
+     },
+     {
+      "id": 5736,
+      "title": "Red Dawn",
+      "year": 1984
+     },
+     {
+      "id": 472,
+      "title": "Ferris Bueller's Day Off",
+      "year": 1986
+     },
+     {
+      "id": 807,
+      "title": "Mobile Suit Gundam I",
+      "year": 1981
+     }
+    ],
+    "name": "Classic Movies",
+    "summary": "4% of the catalogue. Mostly movies, rated for a mix of audiences. Typical genres: Classic Movies, Action & Adventure, Dramas. Most often from United States (53%). Median release year 1984."
+   }
+  ],
+  "8": [
+   {
+    "id": 0,
+    "size": 1563,
+    "share": 0.1779,
+    "movie_share": 1.0,
+    "median_year": 2016,
+    "avg_genres": 2.67,
+    "audience": {
+     "Kids": 0.017,
+     "Family": 0.157,
+     "Teens": 0.811,
+     "Adults": 0.0,
+     "Unrated": 0.015
+    },
+    "genres": [
+     {
+      "name": "International Movies",
+      "share": 0.855
+     },
+     {
+      "name": "Dramas",
+      "share": 0.607
+     },
+     {
+      "name": "Comedies",
+      "share": 0.364
+     },
+     {
+      "name": "Romantic Movies",
+      "share": 0.195
+     }
+    ],
+    "countries": [
+     {
+      "name": "India",
+      "share": 0.406
+     },
+     {
+      "name": "United States",
+      "share": 0.089
+     },
+     {
+      "name": "Egypt",
+      "share": 0.045
+     }
+    ],
+    "examples": [
+     {
+      "id": 3569,
+      "title": "Orbiter 9",
+      "year": 2017
+     },
+     {
+      "id": 1617,
+      "title": "Good Game: The Beginning",
+      "year": 2018
+     },
+     {
+      "id": 4551,
+      "title": "Bioscope",
+      "year": 2015
+     },
+     {
+      "id": 1164,
+      "title": "Mucize",
+      "year": 2015
+     },
+     {
+      "id": 2896,
+      "title": "Rainbow Jelly",
+      "year": 2018
+     }
+    ],
+    "name": "Teen International Movies",
+    "summary": "18% of the catalogue. Mostly movies, mostly rated for teens (81%). Typical genres: International Movies, Dramas, Comedies. Most often from India (41%). Median release year 2016."
+   },
+   {
+    "id": 1,
+    "size": 1482,
+    "share": 0.1687,
+    "movie_share": 1.0,
+    "median_year": 2017,
+    "avg_genres": 2.66,
+    "audience": {
+     "Kids": 0.001,
+     "Family": 0.0,
+     "Teens": 0.0,
+     "Adults": 0.995,
+     "Unrated": 0.005
+    },
+    "genres": [
+     {
+      "name": "International Movies",
+      "share": 0.813
+     },
+     {
+      "name": "Dramas",
+      "share": 0.608
+     },
+     {
+      "name": "Independent Movies",
+      "share": 0.268
+     },
+     {
+      "name": "Comedies",
+      "share": 0.285
+     }
+    ],
+    "countries": [
+     {
+      "name": "India",
+      "share": 0.152
+     },
+     {
+      "name": "United States",
+      "share": 0.119
+     },
+     {
+      "name": "United Kingdom",
+      "share": 0.072
+     }
+    ],
+    "examples": [
+     {
+      "id": 5153,
+      "title": "Into the Forest",
+      "year": 2015
+     },
+     {
+      "id": 3049,
+      "title": "Up Among  The Stars",
+      "year": 2018
+     },
+     {
+      "id": 879,
+      "title": "The Girl King",
+      "year": 2015
+     },
+     {
+      "id": 5067,
+      "title": "Holding the Man",
+      "year": 2015
+     },
+     {
+      "id": 2934,
+      "title": "Mirage",
+      "year": 2018
+     }
+    ],
+    "name": "Adult International Movies",
+    "summary": "17% of the catalogue. Mostly movies, mostly rated for adults (100%). Typical genres: International Movies, Dramas, Independent Movies. Most often from India (15%). Median release year 2017."
+   },
+   {
+    "id": 2,
+    "size": 1447,
+    "share": 0.1647,
+    "movie_share": 1.0,
+    "median_year": 2017,
+    "avg_genres": 1.62,
+    "audience": {
+     "Kids": 0.278,
+     "Family": 0.348,
+     "Teens": 0.346,
+     "Adults": 0.0,
+     "Unrated": 0.028
+    },
+    "genres": [
+     {
+      "name": "Children & Family Movies",
+      "share": 0.411
+     },
+     {
+      "name": "Documentaries",
+      "share": 0.271
+     },
+     {
+      "name": "Comedies",
+      "share": 0.279
+     },
+     {
+      "name": "Dramas",
+      "share": 0.107
+     }
+    ],
+    "countries": [
+     {
+      "name": "United States",
+      "share": 0.644
+     },
+     {
+      "name": "United Kingdom",
+      "share": 0.066
+     },
+     {
+      "name": "Unknown",
+      "share": 0.062
+     }
+    ],
+    "examples": [
+     {
+      "id": 5271,
+      "title": "Kristy",
+      "year": 2013
+     },
+     {
+      "id": 4297,
+      "title": "4th Man Out",
+      "year": 2015
+     },
+     {
+      "id": 5129,
+      "title": "Iliza Shlesinger: War Paint",
+      "year": 2013
+     },
+     {
+      "id": 5789,
+      "title": "Russell Peters: Notorious",
+      "year": 2013
+     },
+     {
+      "id": 5691,
+      "title": "Power Rangers Super Megaforce: The Legendary Battle (Extended)",
+      "year": 2014
+     }
+    ],
+    "name": "Children & Family Movies",
+    "summary": "16% of the catalogue. Mostly movies, rated for a mix of audiences. Typical genres: Children & Family Movies, Documentaries, Comedies. Most often from United States (64%). Median release year 2017."
+   },
+   {
+    "id": 3,
+    "size": 1294,
+    "share": 0.1473,
+    "movie_share": 1.0,
+    "median_year": 2017,
+    "avg_genres": 1.45,
+    "audience": {
+     "Kids": 0.0,
+     "Family": 0.0,
+     "Teens": 0.0,
+     "Adults": 1.0,
+     "Unrated": 0.0
+    },
+    "genres": [
+     {
+      "name": "Stand-Up Comedy",
+      "share": 0.229
+     },
+     {
+      "name": "Documentaries",
+      "share": 0.187
+     },
+     {
+      "name": "Action & Adventure",
+      "share": 0.151
+     },
+     {
+      "name": "Horror Movies",
+      "share": 0.112
+     }
+    ],
+    "countries": [
+     {
+      "name": "United States",
+      "share": 0.75
+     },
+     {
+      "name": "United Kingdom",
+      "share": 0.08
+     },
+     {
+      "name": "Canada",
+      "share": 0.043
+     }
+    ],
+    "examples": [
+     {
+      "id": 2344,
+      "title": "Justice",
+      "year": 2017
+     },
+     {
+      "id": 430,
+      "title": "American Masters: Inventing David Geffen",
+      "year": 2012
+     },
+     {
+      "id": 2616,
+      "title": "Sinister 2",
+      "year": 2015
+     },
+     {
+      "id": 5052,
+      "title": "Here Alone",
+      "year": 2016
+     },
+     {
+      "id": 6037,
+      "title": "The Black Room",
+      "year": 2016
+     }
+    ],
+    "name": "Stand-Up Comedy Movies",
+    "summary": "15% of the catalogue. Mostly movies, mostly rated for adults (100%). Typical genres: Stand-Up Comedy, Documentaries, Action & Adventure. Most often from United States (75%). Median release year 2017."
+   },
+   {
+    "id": 4,
+    "size": 1102,
+    "share": 0.1254,
+    "movie_share": 0.0,
+    "median_year": 2019,
+    "avg_genres": 2.55,
+    "audience": {
+     "Kids": 0.0,
+     "Family": 0.0,
+     "Teens": 0.0,
+     "Adults": 1.0,
+     "Unrated": 0.0
+    },
+    "genres": [
+     {
+      "name": "International TV Shows",
+      "share": 0.648
+     },
+     {
+      "name": "TV Dramas",
+      "share": 0.388
+     },
+     {
+      "name": "Crime TV Shows",
+      "share": 0.318
+     },
+     {
+      "name": "TV Comedies",
+      "share": 0.22
+     }
+    ],
+    "countries": [
+     {
+      "name": "United States",
+      "share": 0.279
+     },
+     {
+      "name": "Pakistan",
+      "share": 0.105
+     },
+     {
+      "name": "United Kingdom",
+      "share": 0.095
+     }
+    ],
+    "examples": [
+     {
+      "id": 6951,
+      "title": "Alice in Borderland",
+      "year": 2020
+     },
+     {
+      "id": 7612,
+      "title": "Another Life",
+      "year": 2019
+     },
+     {
+      "id": 1760,
+      "title": "Goedam",
+      "year": 2020
+     },
+     {
+      "id": 7179,
+      "title": "JU-ON: Origins",
+      "year": 2020
+     },
+     {
+      "id": 7590,
+      "title": "Victim Number 8",
+      "year": 2018
+     }
+    ],
+    "name": "Adult International TV Shows",
+    "summary": "13% of the catalogue. Mostly TV shows, mostly rated for adults (100%). Typical genres: International TV Shows, TV Dramas, Crime TV Shows. Most often from United States (28%). Median release year 2019."
+   },
+   {
+    "id": 5,
+    "size": 803,
+    "share": 0.0914,
+    "movie_share": 0.0,
+    "median_year": 2017,
+    "avg_genres": 2.65,
+    "audience": {
+     "Kids": 0.017,
+     "Family": 0.202,
+     "Teens": 0.777,
+     "Adults": 0.0,
+     "Unrated": 0.004
+    },
+    "genres": [
+     {
+      "name": "International TV Shows",
+      "share": 0.771
+     },
+     {
+      "name": "Romantic TV Shows",
+      "share": 0.293
+     },
+     {
+      "name": "TV Dramas",
+      "share": 0.36
+     },
+     {
+      "name": "Docuseries",
+      "share": 0.163
+     }
+    ],
+    "countries": [
+     {
+      "name": "Pakistan",
+      "share": 0.158
+     },
+     {
+      "name": "United States",
+      "share": 0.149
+     },
+     {
+      "name": "South Korea",
+      "share": 0.121
+     }
+    ],
+    "examples": [
+     {
+      "id": 340,
+      "title": "PILI Fantasy: War of Dragons",
+      "year": 2019
+     },
+     {
+      "id": 932,
+      "title": "The Mystic River",
+      "year": 2020
+     },
+     {
+      "id": 6971,
+      "title": "The Guest",
+      "year": 2018
+     },
+     {
+      "id": 632,
+      "title": "My Life My Story",
+      "year": 2017
+     },
+     {
+      "id": 8341,
+      "title": "Anjaan: Special Crimes Unit",
+      "year": 2018
+     }
+    ],
+    "name": "Teen International TV Shows",
+    "summary": "9% of the catalogue. Mostly TV shows, mostly rated for teens (78%). Typical genres: International TV Shows, Romantic TV Shows, TV Dramas. Most often from Pakistan (16%). Median release year 2017."
+   },
+   {
+    "id": 6,
+    "size": 752,
+    "share": 0.0856,
+    "movie_share": 0.0,
+    "median_year": 2018,
+    "avg_genres": 1.54,
+    "audience": {
+     "Kids": 0.598,
+     "Family": 0.21,
+     "Teens": 0.136,
+     "Adults": 0.055,
+     "Unrated": 0.001
+    },
+    "genres": [
+     {
+      "name": "Kids' TV",
+      "share": 0.594
+     },
+     {
+      "name": "TV Comedies",
+      "share": 0.269
+     },
+     {
+      "name": "Reality TV",
+      "share": 0.128
+     },
+     {
+      "name": "Docuseries",
+      "share": 0.117
+     }
+    ],
+    "countries": [
+     {
+      "name": "United States",
+      "share": 0.552
+     },
+     {
+      "name": "Pakistan",
+      "share": 0.14
+     },
+     {
+      "name": "United Kingdom",
+      "share": 0.066
+     }
+    ],
+    "examples": [
+     {
+      "id": 8508,
+      "title": "Jeopardy!",
+      "year": 2019
+     },
+     {
+      "id": 8196,
+      "title": "Bottersnikes & Gumbles",
+      "year": 2017
+     },
+     {
+      "id": 8432,
+      "title": "Fix It and Finish It",
+      "year": 2014
+     },
+     {
+      "id": 6609,
+      "title": "Wheel of Fortune",
+      "year": 2019
+     },
+     {
+      "id": 6913,
+      "title": "Dream Home Makeover",
+      "year": 2021
+     }
+    ],
+    "name": "Kids' TV Shows",
+    "summary": "9% of the catalogue. Mostly TV shows, mostly rated for kids (60%). Typical genres: Kids' TV, TV Comedies, Reality TV. Most often from United States (55%). Median release year 2018."
+   },
+   {
+    "id": 7,
+    "size": 344,
+    "share": 0.0391,
+    "movie_share": 0.983,
+    "median_year": 1984,
+    "avg_genres": 2.47,
+    "audience": {
+     "Kids": 0.035,
+     "Family": 0.227,
+     "Teens": 0.439,
+     "Adults": 0.276,
+     "Unrated": 0.023
+    },
+    "genres": [
+     {
+      "name": "Classic Movies",
+      "share": 0.331
+     },
+     {
+      "name": "Action & Adventure",
+      "share": 0.334
+     },
+     {
+      "name": "Dramas",
+      "share": 0.459
+     },
+     {
+      "name": "Cult Movies",
+      "share": 0.131
+     }
+    ],
+    "countries": [
+     {
+      "name": "United States",
+      "share": 0.52
+     },
+     {
+      "name": "India",
+      "share": 0.163
+     },
+     {
+      "name": "Hong Kong",
+      "share": 0.081
+     }
+    ],
+    "examples": [
+     {
+      "id": 6495,
+      "title": "Winter of Our Dreams",
+      "year": 1981
+     },
+     {
+      "id": 5378,
+      "title": "Mad Ron's Prevues from Hell",
+      "year": 1987
+     },
+     {
+      "id": 5736,
+      "title": "Red Dawn",
+      "year": 1984
+     },
+     {
+      "id": 807,
+      "title": "Mobile Suit Gundam I",
+      "year": 1981
+     },
+     {
+      "id": 472,
+      "title": "Ferris Bueller's Day Off",
+      "year": 1986
+     }
+    ],
+    "name": "Classic Movies",
+    "summary": "4% of the catalogue. Mostly movies, rated for a mix of audiences. Typical genres: Classic Movies, Action & Adventure, Dramas. Most often from United States (52%). Median release year 1984."
+   }
+  ],
+  "9": [
+   {
+    "id": 0,
+    "size": 1593,
+    "share": 0.1813,
+    "movie_share": 1.0,
+    "median_year": 2017,
+    "avg_genres": 2.63,
+    "audience": {
+     "Kids": 0.001,
+     "Family": 0.002,
+     "Teens": 0.0,
+     "Adults": 0.993,
+     "Unrated": 0.004
+    },
+    "genres": [
+     {
+      "name": "International Movies",
+      "share": 0.756
+     },
+     {
+      "name": "Dramas",
+      "share": 0.621
+     },
+     {
+      "name": "Independent Movies",
+      "share": 0.304
+     },
+     {
+      "name": "Comedies",
+      "share": 0.271
+     }
+    ],
+    "countries": [
+     {
+      "name": "United States",
+      "share": 0.167
+     },
+     {
+      "name": "India",
+      "share": 0.142
+     },
+     {
+      "name": "United Kingdom",
+      "share": 0.072
+     }
+    ],
+    "examples": [
+     {
+      "id": 5153,
+      "title": "Into the Forest",
+      "year": 2015
+     },
+     {
+      "id": 3049,
+      "title": "Up Among  The Stars",
+      "year": 2018
+     },
+     {
+      "id": 879,
+      "title": "The Girl King",
+      "year": 2015
+     },
+     {
+      "id": 5067,
+      "title": "Holding the Man",
+      "year": 2015
+     },
+     {
+      "id": 2934,
+      "title": "Mirage",
+      "year": 2018
+     }
+    ],
+    "name": "Adult International Movies",
+    "summary": "18% of the catalogue. Mostly movies, mostly rated for adults (99%). Typical genres: International Movies, Dramas, Independent Movies. Most often from United States (17%). Median release year 2017."
+   },
+   {
+    "id": 1,
+    "size": 1386,
+    "share": 0.1577,
+    "movie_share": 1.0,
+    "median_year": 2016,
+    "avg_genres": 2.71,
+    "audience": {
+     "Kids": 0.019,
+     "Family": 0.16,
+     "Teens": 0.802,
+     "Adults": 0.0,
+     "Unrated": 0.019
+    },
+    "genres": [
+     {
+      "name": "International Movies",
+      "share": 0.958
+     },
+     {
+      "name": "Dramas",
+      "share": 0.591
+     },
+     {
+      "name": "Comedies",
+      "share": 0.362
+     },
+     {
+      "name": "Romantic Movies",
+      "share": 0.177
+     }
+    ],
+    "countries": [
+     {
+      "name": "India",
+      "share": 0.458
+     },
+     {
+      "name": "Egypt",
+      "share": 0.049
+     },
+     {
+      "name": "Unknown",
+      "share": 0.046
+     }
+    ],
+    "examples": [
+     {
+      "id": 3569,
+      "title": "Orbiter 9",
+      "year": 2017
+     },
+     {
+      "id": 4551,
+      "title": "Bioscope",
+      "year": 2015
+     },
+     {
+      "id": 1617,
+      "title": "Good Game: The Beginning",
+      "year": 2018
+     },
+     {
+      "id": 2896,
+      "title": "Rainbow Jelly",
+      "year": 2018
+     },
+     {
+      "id": 3310,
+      "title": "Bathinda Express",
+      "year": 2016
+     }
+    ],
+    "name": "Teen International Movies",
+    "summary": "16% of the catalogue. Mostly movies, mostly rated for teens (80%). Typical genres: International Movies, Dramas, Comedies. Most often from India (46%). Median release year 2016."
+   },
+   {
+    "id": 2,
+    "size": 1341,
+    "share": 0.1526,
+    "movie_share": 0.0,
+    "median_year": 2018,
+    "avg_genres": 2.78,
+    "audience": {
+     "Kids": 0.011,
+     "Family": 0.1,
+     "Teens": 0.351,
+     "Adults": 0.535,
+     "Unrated": 0.002
+    },
+    "genres": [
+     {
+      "name": "International TV Shows",
+      "share": 0.97
+     },
+     {
+      "name": "TV Dramas",
+      "share": 0.398
+     },
+     {
+      "name": "Romantic TV Shows",
+      "share": 0.248
+     },
+     {
+      "name": "Crime TV Shows",
+      "share": 0.229
+     }
+    ],
+    "countries": [
+     {
+      "name": "Pakistan",
+      "share": 0.15
+     },
+     {
+      "name": "South Korea",
+      "share": 0.113
+     },
+     {
+      "name": "Japan",
+      "share": 0.104
+     }
+    ],
+    "examples": [
+     {
+      "id": 1760,
+      "title": "Goedam",
+      "year": 2020
+     },
+     {
+      "id": 6951,
+      "title": "Alice in Borderland",
+      "year": 2020
+     },
+     {
+      "id": 7179,
+      "title": "JU-ON: Origins",
+      "year": 2020
+     },
+     {
+      "id": 2522,
+      "title": "Zona Rosa",
+      "year": 2019
+     },
+     {
+      "id": 7590,
+      "title": "Victim Number 8",
+      "year": 2018
+     }
+    ],
+    "name": "International TV Shows",
+    "summary": "15% of the catalogue. Mostly TV shows, mostly rated for adults (54%). Typical genres: International TV Shows, TV Dramas, Romantic TV Shows. Most often from Pakistan (15%). Median release year 2018."
+   },
+   {
+    "id": 3,
+    "size": 1212,
+    "share": 0.1379,
+    "movie_share": 1.0,
+    "median_year": 2017,
+    "avg_genres": 1.38,
+    "audience": {
+     "Kids": 0.0,
+     "Family": 0.0,
+     "Teens": 0.0,
+     "Adults": 0.985,
+     "Unrated": 0.015
+    },
+    "genres": [
+     {
+      "name": "Stand-Up Comedy",
+      "share": 0.248
+     },
+     {
+      "name": "Documentaries",
+      "share": 0.209
+     },
+     {
+      "name": "Action & Adventure",
+      "share": 0.154
+     },
+     {
+      "name": "Horror Movies",
+      "share": 0.11
+     }
+    ],
+    "countries": [
+     {
+      "name": "United States",
+      "share": 0.747
+     },
+     {
+      "name": "United Kingdom",
+      "share": 0.08
+     },
+     {
+      "name": "Canada",
+      "share": 0.04
+     }
+    ],
+    "examples": [
+     {
+      "id": 2344,
+      "title": "Justice",
+      "year": 2017
+     },
+     {
+      "id": 430,
+      "title": "American Masters: Inventing David Geffen",
+      "year": 2012
+     },
+     {
+      "id": 2616,
+      "title": "Sinister 2",
+      "year": 2015
+     },
+     {
+      "id": 5052,
+      "title": "Here Alone",
+      "year": 2016
+     },
+     {
+      "id": 6037,
+      "title": "The Black Room",
+      "year": 2016
+     }
+    ],
+    "name": "Stand-Up Comedy Movies",
+    "summary": "14% of the catalogue. Mostly movies, mostly rated for adults (98%). Typical genres: Stand-Up Comedy, Documentaries, Action & Adventure. Most often from United States (75%). Median release year 2017."
+   },
+   {
+    "id": 4,
+    "size": 943,
+    "share": 0.1073,
+    "movie_share": 1.0,
+    "median_year": 2017,
+    "avg_genres": 1.73,
+    "audience": {
+     "Kids": 0.428,
+     "Family": 0.56,
+     "Teens": 0.0,
+     "Adults": 0.0,
+     "Unrated": 0.012
+    },
+    "genres": [
+     {
+      "name": "Children & Family Movies",
+      "share": 0.621
+     },
+     {
+      "name": "Comedies",
+      "share": 0.317
+     },
+     {
+      "name": "Documentaries",
+      "share": 0.234
+     },
+     {
+      "name": "Dramas",
+      "share": 0.116
+     }
+    ],
+    "countries": [
+     {
+      "name": "United States",
+      "share": 0.544
+     },
+     {
+      "name": "Unknown",
+      "share": 0.078
+     },
+     {
+      "name": "United Kingdom",
+      "share": 0.068
+     }
+    ],
+    "examples": [
+     {
+      "id": 540,
+      "title": "A Second Chance:  Rivals!",
+      "year": 2021
+     },
+     {
+      "id": 6180,
+      "title": "The Lamb",
+      "year": 2017
+     },
+     {
+      "id": 5414,
+      "title": "Mary and the Witch's Flower",
+      "year": 2017
+     },
+     {
+      "id": 1955,
+      "title": "Okko's Inn",
+      "year": 2018
+     },
+     {
+      "id": 2010,
+      "title": "Modest Heroes: Ponoc Short Films Theatre",
+      "year": 2018
+     }
+    ],
+    "name": "Children & Family Movies",
+    "summary": "11% of the catalogue. Mostly movies, mostly rated for family (56%). Typical genres: Children & Family Movies, Comedies, Documentaries. Most often from United States (54%). Median release year 2017."
+   },
+   {
+    "id": 5,
+    "size": 851,
+    "share": 0.0968,
+    "movie_share": 0.0,
+    "median_year": 2018,
+    "avg_genres": 1.92,
+    "audience": {
+     "Kids": 0.006,
+     "Family": 0.194,
+     "Teens": 0.3,
+     "Adults": 0.499,
+     "Unrated": 0.001
+    },
+    "genres": [
+     {
+      "name": "Docuseries",
+      "share": 0.324
+     },
+     {
+      "name": "TV Comedies",
+      "share": 0.261
+     },
+     {
+      "name": "TV Dramas",
+      "share": 0.256
+     },
+     {
+      "name": "Reality TV",
+      "share": 0.168
+     }
+    ],
+    "countries": [
+     {
+      "name": "United States",
+      "share": 0.717
+     },
+     {
+      "name": "United Kingdom",
+      "share": 0.106
+     },
+     {
+      "name": "Pakistan",
+      "share": 0.073
+     }
+    ],
+    "examples": [
+     {
+      "id": 7604,
+      "title": "Wu Assassins",
+      "year": 2019
+     },
+     {
+      "id": 6772,
+      "title": "Jupiter's Legacy",
+      "year": 2021
+     },
+     {
+      "id": 7545,
+      "title": "Rotten",
+      "year": 2019
+     },
+     {
+      "id": 6649,
+      "title": "Explained",
+      "year": 2021
+     },
+     {
+      "id": 8650,
+      "title": "Russell Peters vs. the World",
+      "year": 2013
+     }
+    ],
+    "name": "Docuseries",
+    "summary": "10% of the catalogue. Mostly TV shows, rated for a mix of audiences. Typical genres: Docuseries, TV Comedies, TV Dramas. Most often from United States (72%). Median release year 2018."
+   },
+   {
+    "id": 6,
+    "size": 709,
+    "share": 0.0807,
+    "movie_share": 1.0,
+    "median_year": 2016,
+    "avg_genres": 1.71,
+    "audience": {
+     "Kids": 0.0,
+     "Family": 0.0,
+     "Teens": 0.99,
+     "Adults": 0.0,
+     "Unrated": 0.01
+    },
+    "genres": [
+     {
+      "name": "Documentaries",
+      "share": 0.224
+     },
+     {
+      "name": "Comedies",
+      "share": 0.276
+     },
+     {
+      "name": "Sci-Fi & Fantasy",
+      "share": 0.134
+     },
+     {
+      "name": "Action & Adventure",
+      "share": 0.199
+     }
+    ],
+    "countries": [
+     {
+      "name": "United States",
+      "share": 0.808
+     },
+     {
+      "name": "United Kingdom",
+      "share": 0.069
+     },
+     {
+      "name": "Unknown",
+      "share": 0.027
+     }
+    ],
+    "examples": [
+     {
+      "id": 31,
+      "title": "Dark Skies",
+      "year": 2013
+     },
+     {
+      "id": 3924,
+      "title": "Natascha Kampusch: The Whole Story",
+      "year": 2010
+     },
+     {
+      "id": 5867,
+      "title": "Shark Night",
+      "year": 2011
+     },
+     {
+      "id": 5451,
+      "title": "Miss Hokusai",
+      "year": 2015
+     },
+     {
+      "id": 3288,
+      "title": "Seven in Heaven",
+      "year": 2018
+     }
+    ],
+    "name": "Documentaries",
+    "summary": "8% of the catalogue. Mostly movies, mostly rated for teens (99%). Typical genres: Documentaries, Comedies, Sci-Fi & Fantasy. Most often from United States (81%). Median release year 2016."
+   },
+   {
+    "id": 7,
+    "size": 465,
+    "share": 0.0529,
+    "movie_share": 0.0,
+    "median_year": 2018,
+    "avg_genres": 1.59,
+    "audience": {
+     "Kids": 0.955,
+     "Family": 0.045,
+     "Teens": 0.0,
+     "Adults": 0.0,
+     "Unrated": 0.0
+    },
+    "genres": [
+     {
+      "name": "Kids' TV",
+      "share": 0.92
+     },
+     {
+      "name": "TV Comedies",
+      "share": 0.249
+     }
+    ],
+    "countries": [
+     {
+      "name": "United States",
+      "share": 0.409
+     },
+     {
+      "name": "Pakistan",
+      "share": 0.183
+     },
+     {
+      "name": "United Kingdom",
+      "share": 0.073
+     }
+    ],
+    "examples": [
+     {
+      "id": 7646,
+      "title": "Motown Magic",
+      "year": 2019
+     },
+     {
+      "id": 7878,
+      "title": "Treehouse Detectives",
+      "year": 2018
+     },
+     {
+      "id": 7253,
+      "title": "The Hollow",
+      "year": 2020
+     },
+     {
+      "id": 7248,
+      "title": "The Wiggles",
+      "year": 2015
+     },
+     {
+      "id": 8100,
+      "title": "Noddy Toyland Detective",
+      "year": 2016
+     }
+    ],
+    "name": "Kids' TV Shows",
+    "summary": "5% of the catalogue. Mostly TV shows, mostly rated for kids (96%). Typical genres: Kids' TV, TV Comedies. Most often from United States (41%). Median release year 2018."
+   },
+   {
+    "id": 8,
+    "size": 287,
+    "share": 0.0327,
+    "movie_share": 0.979,
+    "median_year": 1982,
+    "avg_genres": 2.52,
+    "audience": {
+     "Kids": 0.038,
+     "Family": 0.261,
+     "Teens": 0.369,
+     "Adults": 0.303,
+     "Unrated": 0.028
+    },
+    "genres": [
+     {
+      "name": "Classic Movies",
+      "share": 0.397
+     },
+     {
+      "name": "Dramas",
+      "share": 0.481
+     },
+     {
+      "name": "Action & Adventure",
+      "share": 0.324
+     },
+     {
+      "name": "Cult Movies",
+      "share": 0.125
+     }
+    ],
+    "countries": [
+     {
+      "name": "United States",
+      "share": 0.456
+     },
+     {
+      "name": "India",
+      "share": 0.188
+     },
+     {
+      "name": "Hong Kong",
+      "share": 0.091
+     }
+    ],
+    "examples": [
+     {
+      "id": 6495,
+      "title": "Winter of Our Dreams",
+      "year": 1981
+     },
+     {
+      "id": 5378,
+      "title": "Mad Ron's Prevues from Hell",
+      "year": 1987
+     },
+     {
+      "id": 5716,
+      "title": "Raging Bull",
+      "year": 1980
+     },
+     {
+      "id": 5765,
+      "title": "Rocky II",
+      "year": 1979
+     },
+     {
+      "id": 807,
+      "title": "Mobile Suit Gundam I",
+      "year": 1981
+     }
+    ],
+    "name": "Classic Movies",
+    "summary": "3% of the catalogue. Mostly movies, rated for a mix of audiences. Typical genres: Classic Movies, Dramas, Action & Adventure. Most often from United States (46%). Median release year 1982."
+   }
+  ],
+  "10": [
+   {
+    "id": 0,
+    "size": 1364,
+    "share": 0.1552,
+    "movie_share": 1.0,
+    "median_year": 2016,
+    "avg_genres": 2.73,
+    "audience": {
+     "Kids": 0.017,
+     "Family": 0.177,
+     "Teens": 0.79,
+     "Adults": 0.0,
+     "Unrated": 0.015
+    },
+    "genres": [
+     {
+      "name": "International Movies",
+      "share": 0.942
+     },
+     {
+      "name": "Dramas",
+      "share": 0.617
+     },
+     {
+      "name": "Comedies",
+      "share": 0.383
+     },
+     {
+      "name": "Romantic Movies",
+      "share": 0.192
+     }
+    ],
+    "countries": [
+     {
+      "name": "India",
+      "share": 0.462
+     },
+     {
+      "name": "Egypt",
+      "share": 0.051
+     },
+     {
+      "name": "Unknown",
+      "share": 0.047
+     }
+    ],
+    "examples": [
+     {
+      "id": 3569,
+      "title": "Orbiter 9",
+      "year": 2017
+     },
+     {
+      "id": 4551,
+      "title": "Bioscope",
+      "year": 2015
+     },
+     {
+      "id": 2896,
+      "title": "Rainbow Jelly",
+      "year": 2018
+     },
+     {
+      "id": 1617,
+      "title": "Good Game: The Beginning",
+      "year": 2018
+     },
+     {
+      "id": 3310,
+      "title": "Bathinda Express",
+      "year": 2016
+     }
+    ],
+    "name": "Teen International Movies",
+    "summary": "16% of the catalogue. Mostly movies, mostly rated for teens (79%). Typical genres: International Movies, Dramas, Comedies. Most often from India (46%). Median release year 2016."
+   },
+   {
+    "id": 1,
+    "size": 1219,
+    "share": 0.1387,
+    "movie_share": 1.0,
+    "median_year": 2017,
+    "avg_genres": 2.61,
+    "audience": {
+     "Kids": 0.008,
+     "Family": 0.0,
+     "Teens": 0.0,
+     "Adults": 0.988,
+     "Unrated": 0.004
+    },
+    "genres": [
+     {
+      "name": "International Movies",
+      "share": 0.996
+     },
+     {
+      "name": "Dramas",
+      "share": 0.539
+     },
+     {
+      "name": "Comedies",
+      "share": 0.251
+     },
+     {
+      "name": "Thrillers",
+      "share": 0.142
+     }
+    ],
+    "countries": [
+     {
+      "name": "India",
+      "share": 0.176
+     },
+     {
+      "name": "Spain",
+      "share": 0.082
+     },
+     {
+      "name": "France",
+      "share": 0.062
+     }
+    ],
+    "examples": [
+     {
+      "id": 5153,
+      "title": "Into the Forest",
+      "year": 2015
+     },
+     {
+      "id": 3049,
+      "title": "Up Among  The Stars",
+      "year": 2018
+     },
+     {
+      "id": 879,
+      "title": "The Girl King",
+      "year": 2015
+     },
+     {
+      "id": 5067,
+      "title": "Holding the Man",
+      "year": 2015
+     },
+     {
+      "id": 1089,
+      "title": "God Calling",
+      "year": 2018
+     }
+    ],
+    "name": "Adult International Movies",
+    "summary": "14% of the catalogue. Mostly movies, mostly rated for adults (99%). Typical genres: International Movies, Dramas, Comedies. Most often from India (18%). Median release year 2017."
+   },
+   {
+    "id": 2,
+    "size": 1020,
+    "share": 0.1161,
+    "movie_share": 1.0,
+    "median_year": 2017,
+    "avg_genres": 1.26,
+    "audience": {
+     "Kids": 0.0,
+     "Family": 0.0,
+     "Teens": 0.0,
+     "Adults": 0.995,
+     "Unrated": 0.005
+    },
+    "genres": [
+     {
+      "name": "Stand-Up Comedy",
+      "share": 0.295
+     },
+     {
+      "name": "Documentaries",
+      "share": 0.236
+     },
+     {
+      "name": "Action & Adventure",
+      "share": 0.145
+     },
+     {
+      "name": "Horror Movies",
+      "share": 0.103
+     }
+    ],
+    "countries": [
+     {
+      "name": "United States",
+      "share": 0.71
+     },
+     {
+      "name": "United Kingdom",
+      "share": 0.09
+     },
+     {
+      "name": "Canada",
+      "share": 0.044
+     }
+    ],
+    "examples": [
+     {
+      "id": 2344,
+      "title": "Justice",
+      "year": 2017
+     },
+     {
+      "id": 430,
+      "title": "American Masters: Inventing David Geffen",
+      "year": 2012
+     },
+     {
+      "id": 3625,
+      "title": "Trailer Park Boys Live at the North Pole",
+      "year": 2014
+     },
+     {
+      "id": 3626,
+      "title": "Trailer Park Boys Live In F**kin' Dublin",
+      "year": 2014
+     },
+     {
+      "id": 5052,
+      "title": "Here Alone",
+      "year": 2016
+     }
+    ],
+    "name": "Stand-Up Comedy Movies",
+    "summary": "12% of the catalogue. Mostly movies, mostly rated for adults (100%). Typical genres: Stand-Up Comedy, Documentaries, Action & Adventure. Most often from United States (71%). Median release year 2017."
+   },
+   {
+    "id": 3,
+    "size": 1013,
+    "share": 0.1153,
+    "movie_share": 0.0,
+    "median_year": 2019,
+    "avg_genres": 2.68,
+    "audience": {
+     "Kids": 0.0,
+     "Family": 0.0,
+     "Teens": 0.0,
+     "Adults": 1.0,
+     "Unrated": 0.0
+    },
+    "genres": [
+     {
+      "name": "International TV Shows",
+      "share": 0.705
+     },
+     {
+      "name": "TV Dramas",
+      "share": 0.421
+     },
+     {
+      "name": "Crime TV Shows",
+      "share": 0.346
+     },
+     {
+      "name": "TV Comedies",
+      "share": 0.213
+     }
+    ],
+    "countries": [
+     {
+      "name": "United States",
+      "share": 0.239
+     },
+     {
+      "name": "Pakistan",
+      "share": 0.106
+     },
+     {
+      "name": "United Kingdom",
+      "share": 0.1
+     }
+    ],
+    "examples": [
+     {
+      "id": 6951,
+      "title": "Alice in Borderland",
+      "year": 2020
+     },
+     {
+      "id": 1760,
+      "title": "Goedam",
+      "year": 2020
+     },
+     {
+      "id": 7179,
+      "title": "JU-ON: Origins",
+      "year": 2020
+     },
+     {
+      "id": 7612,
+      "title": "Another Life",
+      "year": 2019
+     },
+     {
+      "id": 7590,
+      "title": "Victim Number 8",
+      "year": 2018
+     }
+    ],
+    "name": "Adult International TV Shows",
+    "summary": "12% of the catalogue. Mostly TV shows, mostly rated for adults (100%). Typical genres: International TV Shows, TV Dramas, Crime TV Shows. Most often from United States (24%). Median release year 2019."
+   },
+   {
+    "id": 4,
+    "size": 963,
+    "share": 0.1096,
+    "movie_share": 1.0,
+    "median_year": 2016,
+    "avg_genres": 1.59,
+    "audience": {
+     "Kids": 0.034,
+     "Family": 0.216,
+     "Teens": 0.721,
+     "Adults": 0.0,
+     "Unrated": 0.029
+    },
+    "genres": [
+     {
+      "name": "Documentaries",
+      "share": 0.44
+     },
+     {
+      "name": "Action & Adventure",
+      "share": 0.138
+     },
+     {
+      "name": "Comedies",
+      "share": 0.17
+     },
+     {
+      "name": "Dramas",
+      "share": 0.167
+     }
+    ],
+    "countries": [
+     {
+      "name": "United States",
+      "share": 0.697
+     },
+     {
+      "name": "United Kingdom",
+      "share": 0.101
+     },
+     {
+      "name": "Unknown",
+      "share": 0.032
+     }
+    ],
+    "examples": [
+     {
+      "id": 4207,
+      "title": "Tig",
+      "year": 2015
+     },
+     {
+      "id": 245,
+      "title": "Snervous Tyler Oakley",
+      "year": 2015
+     },
+     {
+      "id": 5451,
+      "title": "Miss Hokusai",
+      "year": 2015
+     },
+     {
+      "id": 5184,
+      "title": "Jeremy Scott: The People's Designer",
+      "year": 2015
+     },
+     {
+      "id": 4227,
+      "title": "Print the Legend",
+      "year": 2014
+     }
+    ],
+    "name": "Documentaries",
+    "summary": "11% of the catalogue. Mostly movies, mostly rated for teens (72%). Typical genres: Documentaries, Action & Adventure, Comedies. Most often from United States (70%). Median release year 2016."
+   },
+   {
+    "id": 5,
+    "size": 866,
+    "share": 0.0986,
+    "movie_share": 0.0,
+    "median_year": 2018,
+    "avg_genres": 1.48,
+    "audience": {
+     "Kids": 0.52,
+     "Family": 0.186,
+     "Teens": 0.143,
+     "Adults": 0.15,
+     "Unrated": 0.001
+    },
+    "genres": [
+     {
+      "name": "Kids' TV",
+      "share": 0.516
+     },
+     {
+      "name": "TV Comedies",
+      "share": 0.263
+     },
+     {
+      "name": "Reality TV",
+      "share": 0.136
+     },
+     {
+      "name": "Docuseries",
+      "share": 0.155
+     }
+    ],
+    "countries": [
+     {
+      "name": "United States",
+      "share": 0.565
+     },
+     {
+      "name": "Pakistan",
+      "share": 0.14
+     },
+     {
+      "name": "United Kingdom",
+      "share": 0.064
+     }
+    ],
+    "examples": [
+     {
+      "id": 8508,
+      "title": "Jeopardy!",
+      "year": 2019
+     },
+     {
+      "id": 6913,
+      "title": "Dream Home Makeover",
+      "year": 2021
+     },
+     {
+      "id": 8432,
+      "title": "Fix It and Finish It",
+      "year": 2014
+     },
+     {
+      "id": 6609,
+      "title": "Wheel of Fortune",
+      "year": 2019
+     },
+     {
+      "id": 8196,
+      "title": "Bottersnikes & Gumbles",
+      "year": 2017
+     }
+    ],
+    "name": "Kids' TV Shows",
+    "summary": "10% of the catalogue. Mostly TV shows, mostly rated for kids (52%). Typical genres: Kids' TV, TV Comedies, Reality TV. Most often from United States (56%). Median release year 2018."
+   },
+   {
+    "id": 6,
+    "size": 778,
+    "share": 0.0885,
+    "movie_share": 0.0,
+    "median_year": 2017,
+    "avg_genres": 2.69,
+    "audience": {
+     "Kids": 0.018,
+     "Family": 0.204,
+     "Teens": 0.774,
+     "Adults": 0.0,
+     "Unrated": 0.004
+    },
+    "genres": [
+     {
+      "name": "International TV Shows",
+      "share": 0.796
+     },
+     {
+      "name": "Romantic TV Shows",
+      "share": 0.302
+     },
+     {
+      "name": "TV Dramas",
+      "share": 0.366
+     },
+     {
+      "name": "Docuseries",
+      "share": 0.153
+     }
+    ],
+    "countries": [
+     {
+      "name": "Pakistan",
+      "share": 0.154
+     },
+     {
+      "name": "United States",
+      "share": 0.143
+     },
+     {
+      "name": "South Korea",
+      "share": 0.125
+     }
+    ],
+    "examples": [
+     {
+      "id": 340,
+      "title": "PILI Fantasy: War of Dragons",
+      "year": 2019
+     },
+     {
+      "id": 6971,
+      "title": "The Guest",
+      "year": 2018
+     },
+     {
+      "id": 932,
+      "title": "The Mystic River",
+      "year": 2020
+     },
+     {
+      "id": 8341,
+      "title": "Anjaan: Special Crimes Unit",
+      "year": 2018
+     },
+     {
+      "id": 8550,
+      "title": "Maharakshak Devi",
+      "year": 2015
+     }
+    ],
+    "name": "Teen International TV Shows",
+    "summary": "9% of the catalogue. Mostly TV shows, mostly rated for teens (77%). Typical genres: International TV Shows, Romantic TV Shows, TV Dramas. Most often from Pakistan (15%). Median release year 2017."
+   },
+   {
+    "id": 7,
+    "size": 651,
+    "share": 0.0741,
+    "movie_share": 1.0,
+    "median_year": 2016,
+    "avg_genres": 1.78,
+    "audience": {
+     "Kids": 0.561,
+     "Family": 0.433,
+     "Teens": 0.005,
+     "Adults": 0.0,
+     "Unrated": 0.002
+    },
+    "genres": [
+     {
+      "name": "Children & Family Movies",
+      "share": 0.9
+     },
+     {
+      "name": "Comedies",
+      "share": 0.432
+     }
+    ],
+    "countries": [
+     {
+      "name": "United States",
+      "share": 0.545
+     },
+     {
+      "name": "Unknown",
+      "share": 0.091
+     },
+     {
+      "name": "India",
+      "share": 0.074
+     }
+    ],
+    "examples": [
+     {
+      "id": 6523,
+      "title": "Yo-Kai Watch: The Movie",
+      "year": 2016
+     },
+     {
+      "id": 3090,
+      "title": "Pok\u00e9mon the Movie: I Choose You!",
+      "year": 2017
+     },
+     {
+      "id": 2405,
+      "title": "Pok\u00e9mon the Movie: Power of Us",
+      "year": 2018
+     },
+     {
+      "id": 2429,
+      "title": "Back of the Net",
+      "year": 2019
+     },
+     {
+      "id": 3844,
+      "title": "Jessica Darling's It List",
+      "year": 2016
+     }
+    ],
+    "name": "Children & Family Movies",
+    "summary": "7% of the catalogue. Mostly movies, mostly rated for kids (56%). Typical genres: Children & Family Movies, Comedies. Most often from United States (55%). Median release year 2016."
+   },
+   {
+    "id": 8,
+    "size": 612,
+    "share": 0.0696,
+    "movie_share": 1.0,
+    "median_year": 2016,
+    "avg_genres": 2.53,
+    "audience": {
+     "Kids": 0.0,
+     "Family": 0.034,
+     "Teens": 0.033,
+     "Adults": 0.917,
+     "Unrated": 0.016
+    },
+    "genres": [
+     {
+      "name": "Independent Movies",
+      "share": 0.652
+     },
+     {
+      "name": "Dramas",
+      "share": 0.797
+     },
+     {
+      "name": "Thrillers",
+      "share": 0.222
+     },
+     {
+      "name": "Comedies",
+      "share": 0.309
+     }
+    ],
+    "countries": [
+     {
+      "name": "United States",
+      "share": 0.752
+     },
+     {
+      "name": "United Kingdom",
+      "share": 0.082
+     },
+     {
+      "name": "Canada",
+      "share": 0.057
+     }
+    ],
+    "examples": [
+     {
+      "id": 6400,
+      "title": "Trumbo",
+      "year": 2015
+     },
+     {
+      "id": 5927,
+      "title": "Spotlight",
+      "year": 2015
+     },
+     {
+      "id": 4627,
+      "title": "Camp X-Ray",
+      "year": 2014
+     },
+     {
+      "id": 4199,
+      "title": "Beasts of No Nation",
+      "year": 2015
+     },
+     {
+      "id": 4737,
+      "title": "Dallas Buyers Club",
+      "year": 2013
+     }
+    ],
+    "name": "Independent Movies",
+    "summary": "7% of the catalogue. Mostly movies, mostly rated for adults (92%). Typical genres: Independent Movies, Dramas, Thrillers. Most often from United States (75%). Median release year 2016."
+   },
+   {
+    "id": 9,
+    "size": 301,
+    "share": 0.0343,
+    "movie_share": 0.98,
+    "median_year": 1982,
+    "avg_genres": 2.5,
+    "audience": {
+     "Kids": 0.037,
+     "Family": 0.249,
+     "Teens": 0.412,
+     "Adults": 0.276,
+     "Unrated": 0.027
+    },
+    "genres": [
+     {
+      "name": "Classic Movies",
+      "share": 0.369
+     },
+     {
+      "name": "Dramas",
+      "share": 0.475
+     },
+     {
+      "name": "Action & Adventure",
+      "share": 0.329
+     },
+     {
+      "name": "Cult Movies",
+      "share": 0.133
+     }
+    ],
+    "countries": [
+     {
+      "name": "United States",
+      "share": 0.492
+     },
+     {
+      "name": "India",
+      "share": 0.179
+     },
+     {
+      "name": "Hong Kong",
+      "share": 0.086
+     }
+    ],
+    "examples": [
+     {
+      "id": 6495,
+      "title": "Winter of Our Dreams",
+      "year": 1981
+     },
+     {
+      "id": 5378,
+      "title": "Mad Ron's Prevues from Hell",
+      "year": 1987
+     },
+     {
+      "id": 807,
+      "title": "Mobile Suit Gundam I",
+      "year": 1981
+     },
+     {
+      "id": 3515,
+      "title": "Lupin the 3rd: The Castle of Cagliostro: Special Edition",
+      "year": 1979
+     },
+     {
+      "id": 5765,
+      "title": "Rocky II",
+      "year": 1979
+     }
+    ],
+    "name": "Classic Movies",
+    "summary": "3% of the catalogue. Mostly movies, rated for a mix of audiences. Typical genres: Classic Movies, Dramas, Action & Adventure. Most often from United States (49%). Median release year 1982."
+   }
+  ]
+ }
+}

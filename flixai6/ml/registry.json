@@ -1,0 +1,27 @@
+{
+ "versions": [
+  {
+   "version": 1,
+   "run_id": "20261006-040539",
+   "created": "2026-10-06T04:07:21",
+   "data_hash": "388d1ebd78d4",
+   "model": "Ensemble (average of three)",
+   "test_auc": 0.7441,
+   "cv_auc": 0.7641,
+   "artifact": "models/success_v1.pkl",
+   "status": "archived"
+  },
+  {
+   "version": 2,
+   "run_id": "20261008-135226",
+   "created": "2026-10-08T13:54:57",
+   "data_hash": "388d1ebd78d4",
+   "model": "Ensemble (average of three)",
+   "test_auc": 0.7441,
+   "cv_auc": 0.7641,
+   "artifact": "models/success_v2.pkl",
+   "status": "production"
+  }
+ ],
+ "production": 2
+}
