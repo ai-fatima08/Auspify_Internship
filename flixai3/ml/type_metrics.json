@@ -1,0 +1,284 @@
+{
+  "rows": 8787,
+  "movies": 6124,
+  "shows": 2663,
+  "baseline_accuracy": 0.6969,
+  "folds": 5,
+  "scenarios": [
+    {
+      "key": "all",
+      "label": "All features",
+      "note": "Includes duration, which reads '90 min' for movies and '2 Seasons' for shows. The model simply reads the answer.",
+      "results": [
+        {
+          "model": "Logistic Regression",
+          "accuracy": 1.0,
+          "accuracy_std": 0.0,
+          "f1": 1.0,
+          "auc": 1.0
+        },
+        {
+          "model": "Decision Tree",
+          "accuracy": 1.0,
+          "accuracy_std": 0.0,
+          "f1": 1.0,
+          "auc": 1.0
+        },
+        {
+          "model": "Random Forest",
+          "accuracy": 1.0,
+          "accuracy_std": 0.0,
+          "f1": 1.0,
+          "auc": 1.0
+        },
+        {
+          "model": "Gradient Boosting",
+          "accuracy": 1.0,
+          "accuracy_std": 0.0,
+          "f1": 1.0,
+          "auc": 1.0
+        }
+      ]
+    },
+    {
+      "key": "no_dur",
+      "label": "Without duration",
+      "note": "Duration removed, but genres such as 'TV Dramas' still reveal the type.",
+      "results": [
+        {
+          "model": "Logistic Regression",
+          "accuracy": 0.9995,
+          "accuracy_std": 0.0004,
+          "f1": 0.9992,
+          "auc": 1.0
+        },
+        {
+          "model": "Decision Tree",
+          "accuracy": 0.9989,
+          "accuracy_std": 0.0007,
+          "f1": 0.9981,
+          "auc": 0.9984
+        },
+        {
+          "model": "Random Forest",
+          "accuracy": 0.9995,
+          "accuracy_std": 0.0004,
+          "f1": 0.9992,
+          "auc": 1.0
+        },
+        {
+          "model": "Gradient Boosting",
+          "accuracy": 0.9995,
+          "accuracy_std": 0.0002,
+          "f1": 0.9992,
+          "auc": 1.0
+        }
+      ]
+    },
+    {
+      "key": "honest",
+      "label": "Realistic",
+      "note": "Duration removed and words like TV, Shows, Movies stripped from genres. Genre names such as Docuseries or Kids' still only exist for shows, so scores stay very high.",
+      "results": [
+        {
+          "model": "Logistic Regression",
+          "accuracy": 0.9852,
+          "accuracy_std": 0.0024,
+          "f1": 0.9755,
+          "auc": 0.9963
+        },
+        {
+          "model": "Decision Tree",
+          "accuracy": 0.9861,
+          "accuracy_std": 0.0019,
+          "f1": 0.9769,
+          "auc": 0.9808
+        },
+        {
+          "model": "Random Forest",
+          "accuracy": 0.9866,
+          "accuracy_std": 0.0013,
+          "f1": 0.9778,
+          "auc": 0.9958
+        },
+        {
+          "model": "Gradient Boosting",
+          "accuracy": 0.9885,
+          "accuracy_std": 0.0016,
+          "f1": 0.981,
+          "auc": 0.9975
+        }
+      ]
+    },
+    {
+      "key": "strict",
+      "label": "Strict",
+      "note": "Duration and genres both removed. Only rating, country, release year and whether a director is listed remain. This is the signal that is left when the obvious clues are gone.",
+      "results": [
+        {
+          "model": "Logistic Regression",
+          "accuracy": 0.9519,
+          "accuracy_std": 0.0037,
+          "f1": 0.9193,
+          "auc": 0.9687
+        },
+        {
+          "model": "Decision Tree",
+          "accuracy": 0.9499,
+          "accuracy_std": 0.0031,
+          "f1": 0.9162,
+          "auc": 0.9579
+        },
+        {
+          "model": "Random Forest",
+          "accuracy": 0.9479,
+          "accuracy_std": 0.0027,
+          "f1": 0.9128,
+          "auc": 0.9664
+        },
+        {
+          "model": "Gradient Boosting",
+          "accuracy": 0.9513,
+          "accuracy_std": 0.0034,
+          "f1": 0.9183,
+          "auc": 0.9728
+        }
+      ]
+    }
+  ],
+  "final": {
+    "honest": {
+      "model": "Gradient Boosting",
+      "train_rows": 7029,
+      "test_rows": 1758,
+      "accuracy": 0.9869,
+      "precision": 0.9793,
+      "recall": 0.9775,
+      "f1": 0.9784,
+      "auc": 0.9978,
+      "confusion": {
+        "movie_correct": 1214,
+        "movie_as_show": 11,
+        "show_as_movie": 12,
+        "show_correct": 521
+      },
+      "importance": [
+        {
+          "feature": "Genres",
+          "value": 0.4039
+        },
+        {
+          "feature": "Director listed",
+          "value": 0.2262
+        },
+        {
+          "feature": "Rating",
+          "value": 0.0059
+        },
+        {
+          "feature": "Country",
+          "value": 0.0023
+        },
+        {
+          "feature": "Number of genres",
+          "value": 0.0016
+        },
+        {
+          "feature": "Release year",
+          "value": -0.0008
+        }
+      ]
+    },
+    "strict": {
+      "model": "Logistic Regression",
+      "train_rows": 7029,
+      "test_rows": 1758,
+      "accuracy": 0.9477,
+      "precision": 0.9315,
+      "recall": 0.8931,
+      "f1": 0.9119,
+      "auc": 0.9642,
+      "confusion": {
+        "movie_correct": 1190,
+        "movie_as_show": 35,
+        "show_as_movie": 57,
+        "show_correct": 476
+      },
+      "importance": [
+        {
+          "feature": "Director listed",
+          "value": 0.588
+        },
+        {
+          "feature": "Rating",
+          "value": 0.0417
+        },
+        {
+          "feature": "Country",
+          "value": 0.0016
+        },
+        {
+          "feature": "Release year",
+          "value": 0.0006
+        }
+      ]
+    }
+  },
+  "features": [
+    {
+      "name": "Genres",
+      "used": true,
+      "reason": "Strongest signal. In the realistic model the words TV, Shows and Movies are removed from the names."
+    },
+    {
+      "name": "Director listed (yes or no)",
+      "used": true,
+      "reason": "Most TV shows have no director credited, while most movies do."
+    },
+    {
+      "name": "Rating",
+      "used": true,
+      "reason": "Small but real difference between movie and show ratings."
+    },
+    {
+      "name": "Country (first listed)",
+      "used": true,
+      "reason": "Top 15 countries kept, the rest grouped as Other."
+    },
+    {
+      "name": "Release year",
+      "used": true,
+      "reason": "Cheap to collect and easy for a user to provide."
+    },
+    {
+      "name": "Number of genres",
+      "used": true,
+      "reason": "Derived from the genres. Not used in the strict model."
+    },
+    {
+      "name": "Duration",
+      "used": false,
+      "reason": "Only tested in the All features scenario. It reads minutes for movies and seasons for shows, so it gives the answer away."
+    },
+    {
+      "name": "Title",
+      "used": false,
+      "reason": "Unique text on every row. A model would memorise it instead of learning a pattern."
+    },
+    {
+      "name": "Show ID",
+      "used": false,
+      "reason": "An identifier with no meaning."
+    },
+    {
+      "name": "Director name",
+      "used": false,
+      "reason": "Thousands of names that appear once. Only whether a director exists is kept."
+    },
+    {
+      "name": "Date added",
+      "used": false,
+      "reason": "Not known for a new title, and it showed no benefit in testing."
+    }
+  ]
+}

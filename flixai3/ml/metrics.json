@@ -1,0 +1,11 @@
+{
+  "k": 10,
+  "titles_evaluated": 1500,
+  "catalogue_size": 8787,
+  "genre_precision_at_k": 1.0,
+  "random_baseline_precision": 0.2437,
+  "mean_genre_overlap": 0.9696,
+  "type_consistency": 1.0,
+  "diversity": 0.0626,
+  "catalogue_coverage": 0.6854
+}
